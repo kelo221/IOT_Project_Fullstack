@@ -1,0 +1,18 @@
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+
+#logo{
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering:   -o-crisp-edges;         /* Opera */
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+}
+
+/* Object */
+{"Carolina Blue":"209cee","Prussian Blue":"102e4a","Platinum":"e8e8e8","Mandarin":"fc814a","Green RYB":"62ab37"}
+
+/*  https://coolors.co/209cee-102e4a-e8e8e8-fc814a-62ab37 */
+
