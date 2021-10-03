@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" class="has-background-warning">
+<html lang="en" class="has-background-success">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="js/script.js"></script>
     <script src="https://kit.fontawesome.com/97f2692db1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="css/mystyles.css">
     <link rel="stylesheet" href="css/style.css">
 
 </head>
 
 <body>
-<nav class="navbar is-info" role="navigation" aria-label="main navigation">
+<nav class="navbar is-success" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item">
             <i id="fan" class="fas fa-fan has-text-white-bis mx-1"></i>
@@ -31,42 +30,88 @@
             <span class="icon mx-1">
                 <i class="fas fa-chart-area"></i>
             </span>
-            Graphs
+            Graphs & Statistics
         </a>
 
     </div>
 </nav>
 
-<div class="box mx-6 mt-6 has-background-info" id="homeContent">
+<div class="box mx-6 mt-6 has-background-primary" id="homeContent">
 
 
     <div class="columns is-vcentered">
         <div class="column">
             <section class="section">
-                <div class="box">
+                <div class="box has-background-light">
                 <img src="http://placeimg.com/640/480/animals" height="240" alt="">
-                <!-- Fan speed . -->
-                </div>
+                    <!-- If value is "" set back to automatic mode . -->
+                    <div class="control">
+                        <input class="input is-dark" type="text" placeholder="Automatic" disabled min="0" max="100">
+
+                        <div class="control">
+                            <label class="radio">
+                                <input type="radio" name="fanRadio" checked>
+                                Automatic
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="fanRadio">
+                               Manual
+                            </label>
+                        </div>
+                    </div>
+
             </section>
+
         </div>
         <div class="column">
             <section class="section">
+                <div class="box has-background-light">
                 <img src="http://placeimg.com/640/480/animals" height="240" alt="">
-                <!-- Pressure . -->
+
+                    <!-- If value is "" set back to automatic mode . -->
+                    <div class="control">
+                        <input class="input is-dark" type="text" placeholder="Automatic" disabled>
+
+                        <div class="control">
+                            <label class="radio">
+                                <input type="radio" name="pressureRadio" checked>
+                                Automatic
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="pressureRadio" >
+                                Manual
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pressure . -->
+                </div>
             </section>
         </div>
     </div>
 
 </div>
 
-<div class="box mx-6 mt-6" id="graphContent">
-    <section class="section">
-        <img src="https://bulma.io/images/placeholders/640x480.png" height="240" alt="">
-    </section>
+<div class="box mx-6 mt-6 has-background-primary" id="graphContent">
 
-    <section class="section">
-        <img src="https://bulma.io/images/placeholders/640x480.png" height="240" alt="">
-    </section>
+    <div class="columns is-vcentered">
+        <div class="column">
+            <section class="section">
+                <div class="box has-background-light">
+                    <img src="http://placeimg.com/640/480/nature" height="240" alt="">
+                    <!-- Fan speed . -->
+                </div>
+            </section>
+        </div>
+        <div class="column">
+            <section class="section">
+                <div class="box has-background-light">
+                    <img src="http://placeimg.com/640/480/nature" height="240" alt="">
+                    <!-- Pressure . -->
+                </div>
+            </section>
+        </div>
+    </div>
 </div>
 
 
