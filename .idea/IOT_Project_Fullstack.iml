@@ -7,5 +7,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="all" level="application" />
     <orderEntry type="library" name="97f2692db1" level="application" />
+    <orderEntry type="library" name="index" level="application" />
+    <orderEntry type="library" name="animejs" level="application" />
+    <orderEntry type="library" name="vue" level="application" />
+    <orderEntry type="library" name="bonsai" level="application" />
   </component>
 </module>

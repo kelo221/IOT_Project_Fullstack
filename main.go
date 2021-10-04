@@ -1,9 +1,7 @@
 package main
 
-import "fmt"
-
 func main() {
-	fmt.Println("hello2")
-	//go handleDatabase()
+	go handleDatabase()
+	go handleMQTT()
 	handleHTTP()
 }

@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"  standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg id="gauge" data-name="gauge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 442.41 344.42"><defs><style>.cls-1{fill:#6ec37c;}.cls-2{fill:#f3a141;}.cls-3{fill:#e07f8b;}.cls-4{fill:#3e3a39;}</style></defs>
     <path class="cls-1" d="M212.38,366.74a123.53,123.53,0,1,1,192,0l87.76,45.47A220.19,220.19,0,0,0,529.56,289c0-122.17-99-221.21-221.2-221.21S87.15,166.83,87.15,289a220.19,220.19,0,0,0,37.47,123.21Z" transform="translate(-87.15 -67.79)"/>
     <path class="cls-2" d="M480.75,150.41l-75.37,62.15a123.48,123.48,0,0,1-1.05,154.18l87.76,45.47a221.23,221.23,0,0,0-11.34-261.8Z" transform="translate(-87.15 -67.79)"/>

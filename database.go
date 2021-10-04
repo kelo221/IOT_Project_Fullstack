@@ -19,7 +19,7 @@ func handleDatabase() {
 	// We declare the database definition.
 	db = arangolite.NewDatabase(
 		arangolite.OptEndpoint("http://localhost:8529"),
-		arangolite.OptBasicAuth("root", "arango"),
+		arangolite.OptBasicAuth("root", "1234"),
 		arangolite.OptDatabaseName("_system"),
 	)
 
