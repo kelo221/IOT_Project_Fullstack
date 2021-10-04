@@ -38,33 +38,16 @@
 
 <div class="box mx-6 mt-6 has-background-primary" id="homeContent">
 
+<!--
+    <img src="img/switchA.png" id="switch" height="10" alt="">
+-->
+
+    <figure class="is-flex is-align-items-left is-justify-content-center is-128x128" id="switch">
+        <img src="img/switchA.png">
+    </figure>
 
     <div class="columns is-vcentered">
-        <div class="column">
-            <section class="section">
-                <div class="box has-background-light">
-                    <h3 class="title is-3">Pressure </h3>
-                    <!--   <h3 class="title is-3 has-text-right">Pressure</h3> -->
-                      <object type="image/svg+xml" data="img/gauge.svg" id="pressureGauge" class="shadow"></object>
-                      <!-- If value is "" set back to automatic mode . -->
-                    <div class="control">
-                        <input class="input is-dark" type="text" placeholder="Automatic" disabled min="0" max="100">
 
-                        <div class="control">
-                            <label class="radio">
-                                <input type="radio" name="fanRadio" checked>
-                                Automatic
-                            </label>
-                            <label class="radio">
-                                <input type="radio" name="fanRadio">
-                               Manual
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </div>
         <div class="column">
             <section class="section">
                 <div class="box has-background-light">
@@ -75,7 +58,7 @@
                     <div class="control">
                         <input class="input is-dark" type="text" placeholder="Automatic" disabled>
 
-                        <div class="control">
+                       <!-- <div class="control">
                             <label class="radio">
                                 <input type="radio" name="pressureRadio" checked>
                                 Automatic
@@ -84,12 +67,37 @@
                                 <input type="radio" name="pressureRadio" >
                                 Manual
                             </label>
-                        </div>
+                        </div>-->
                     </div>
 
                     <!-- Pressure . -->
                 </div>
             </section>
+        </div>
+        <div class="column">
+            <section class="section">
+                <div class="box has-background-light">
+                    <h3 class="title is-3">Pressure </h3>
+                    <!--   <h3 class="title is-3 has-text-right">Pressure</h3> -->
+                    <object type="image/svg+xml" data="img/gauge.svg" id="pressureGauge" class="shadow"></object>
+                    <!-- If value is "" set back to automatic mode . -->
+                    <div class="control">
+                        <input class="input is-dark" type="text" placeholder="Please input value (0-100)"  min="0" max="100">
+
+                        <!--<div class="control">
+                            <label class="radio">
+                                <input type="radio" name="fanRadio" checked>
+                                Automatic
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="fanRadio">
+                               Manual
+                            </label>
+                        </div>-->
+                    </div>
+                </div>
+            </section>
+
         </div>
     </div>
 

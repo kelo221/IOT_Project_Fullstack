@@ -3,6 +3,14 @@
     height: 0;
 }
 
+#switch{
+    width: auto;
+    height: auto;
+    max-width: 10vw;
+    max-height: 10vh;
+    margin-left: 5vw;
+    margin-top:5px ;
+}
 
 #logo{
     image-rendering: -moz-crisp-edges;         /* Firefox */
@@ -11,9 +19,6 @@
     -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
 }
 
-.gauge{
-
-}
 
 .shadow {
     -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));

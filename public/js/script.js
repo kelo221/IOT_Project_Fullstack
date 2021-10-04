@@ -5,6 +5,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let graphDiv = document.getElementById("graphContent");
     const homeButton =  document.getElementById("homeButton")
     const graphButton =  document.getElementById("graphButton")
+    const gaugeSvg = document.getElementById('fanGauge').contentDocument;
+    let pointer= gaugeSvg.getElementById('pointer');
     graphDiv.style.display = "none";
 
     //  logo fan handling
@@ -16,6 +18,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     fan.style.transform= "rotate(" + currentRot + "deg)"
         currentRot+=20
     }
+
 
     setInterval(showTime, 100);
     //  logo fan handling
@@ -41,6 +44,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     });
     //  graph button handling
+
+    // pointer
+    pointer.setAttribute('transform-origin', '0 20');
+    pointer.setAttribute("transform", "rotate(100)");
 
 });
 

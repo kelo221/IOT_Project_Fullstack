@@ -4,6 +4,6 @@ import "fmt"
 
 func main() {
 	fmt.Println("hello2")
-	go handleDatabase()
+	//go handleDatabase()
 	handleHTTP()
 }
