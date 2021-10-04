@@ -79,7 +79,7 @@ window.onload = function() {
     modeSwitch.addEventListener("click", () => {
         console.log("switchImage clicked.")
         if (systemIsAutomatic) {
-            modeSwitch.src = "img/switchM.png"
+            modeSwitch.src = "img/switchMyellow.png"
             systemIsAutomatic = false
         } else {
             modeSwitch.src = "img/switchA.png"
