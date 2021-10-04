@@ -17,8 +17,6 @@ type tempData struct {
 	Err      bool `json:"err,omitempty"`
 }
 
-var dataStorage []tempData
-
 var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
 
 	MQTTpackage := tempData{
@@ -38,13 +36,15 @@ var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Me
 		//fmt.Println(MQTTpackage)
 
 		//Add to array of all MQTTpackage
-		dataStorage = append(dataStorage, MQTTpackage)
+		//dataStorage = append(dataStorage, MQTTpackage)
 		fmt.Println(MQTTpackage)
 
+		appendToDB(MQTTpackage)
 		//writeToDB("tempData", strconv.Itoa(MQTTpackage.SampleNr),strconv.Itoa(MQTTpackage.Temperature) )
 	}
 
 }
+
 var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {
 	fmt.Println("Connected")
 }

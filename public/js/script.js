@@ -2,15 +2,13 @@
 
 let systemIsAutomatic = true
 
-window.onload = function() {
+window.addEventListener('DOMContentLoaded', (event) => {
+
     const homeDiv = document.getElementById("homeContent")
     const graphDiv = document.getElementById("graphContent")
     graphDiv.style.display = "none"
     const homeButton = document.getElementById("homeButton")
     const graphButton = document.getElementById("graphButton")
-    const gaugeSvg = document.getElementById('fanGauge').contentDocument
-    const pointer = gaugeSvg.getElementById('pointer')
-    const modeSwitch = document.getElementById("switchImage")
 
     //  Logo fan handling
     const fan = document.getElementById("fan")
@@ -20,7 +18,7 @@ window.onload = function() {
     function showTime() {
         fan.style.transform = "rotate(" + currentRot + "deg)"
         pointer.style.transform =  "rotate(" + currentRot + "deg)"
-       // pointer.style.transform = "translate(-87px, -67px)"
+        // pointer.style.transform = "translate(-87px, -67px)"
         currentRot += 20
     }
 
@@ -48,6 +46,15 @@ window.onload = function() {
         }
     });
     //  Graph button handling
+
+});
+
+window.onload = function() {
+
+    const gaugeSvg = document.getElementById('fanGauge').contentDocument
+    const pointer = gaugeSvg.getElementById('pointer')
+    const modeSwitch = document.getElementById("switchImage")
+
 
 
         // pointer

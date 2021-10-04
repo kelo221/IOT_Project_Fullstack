@@ -3,14 +3,15 @@ module IOT_Project_Webserver
 go 1.17
 
 require (
+	github.com/TobiEiss/aranGoDriver v0.0.0-20200216071247-2a0cbce6896e
 	github.com/eclipse/paho.mqtt.golang v1.3.5
 	github.com/gofiber/fiber/v2 v2.19.0
 	github.com/sirupsen/logrus v1.8.1
-	github.com/solher/arangolite/v2 v2.0.6
 )
 
 require (
 	github.com/andybalholm/brotli v1.0.2 // indirect
+	github.com/fatih/structs v1.1.0 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/klauspost/compress v1.13.4 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
