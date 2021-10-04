@@ -10,20 +10,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const homeButton = document.getElementById("homeButton")
     const graphButton = document.getElementById("graphButton")
 
-    //  Logo fan handling
-    const fan = document.getElementById("fan")
-    let currentRot = 0
-    fan.style.transition = "all 0.25s"
-
-    function showTime() {
-        fan.style.transform = "rotate(" + currentRot + "deg)"
-        pointer.style.transform =  "rotate(" + currentRot + "deg)"
-        // pointer.style.transform = "translate(-87px, -67px)"
-        currentRot += 20
-    }
-
-    setInterval(showTime, 100)
-    //  Logo fan handling
 
 
     //  Home button handling
@@ -56,8 +42,23 @@ window.onload = function() {
     const modeSwitch = document.getElementById("switchImage")
 
 
+    //  Logo fan handling
+    const fan = document.getElementById("fan")
+    let currentRot = 0
+    fan.style.transition = "all 0.25s"
 
-        // pointer
+    function showTime() {
+        fan.style.transform = "rotate(" + currentRot + "deg)"
+        // pointer.style.transform =  "rotate(" + currentRot + "deg)"
+        // pointer.style.transform = "translate(-87px, -67px)"
+        currentRot += 20
+    }
+
+    setInterval(showTime, 100)
+    //  Logo fan handling
+
+
+    // pointer
 /*        pointer.setAttribute('transform-origin', '0 20');
         pointer.setAttribute("transform", "rotate(100)");*/
 
