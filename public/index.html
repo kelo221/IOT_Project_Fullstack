@@ -7,17 +7,16 @@
     <script src="https://kit.fontawesome.com/97f2692db1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="css/style.css">
-
 </head>
-<!-- text. -->
+
 <body>
+<!-- NavBar -->
 <nav class="navbar is-success" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item">
             <i id="fan" class="fas fa-fan has-text-white-bis mx-1"></i>
             <img src="/img/logoNew.png"  height="40" id="logo">
         </a>
-
 
         <a id="homeButton" class="navbar-item">
             <span class="icon mx-1">
@@ -35,55 +34,67 @@
 
     </div>
 </nav>
+<!-- NavBar END -->
 
-<div class="box mx-4 mt-4 has-background-primary" id="homeContent">
+<!-- Fan Error -->
+<div class="notification is-danger has-text-centered  is-narrow" id="errorContainer" >
+    <button class="delete" id="errorMessage"></button>
+The fan has failed to settle in!
+</div>
+<!-- Fan Error END -->
+
+<!-- Main Content -->
+<div class="box mx-2 mt-2 has-background-primary" id="homeContent">
 
     <!-- Switch . -->
     <figure class="is-flex is-align-items-left is-justify-content-center is-128x128" id="switch">
         <img src="img/switchA.png" alt="modeChanger" id="switchImage">
     </figure>
+    <!-- Switch -->
 
+    <!-- Home Content -->
     <div class="columns is-vcentered">
-        <!-- Switch -->
 
         <!-- Fan Speed  -->
         <div class="column">
             <section class="section">
                 <div class="box has-background-light">
                     <h3 class="title is-3">Fan Speed</h3>
-                    <object type="image/svg+xml" data="img/gauge.svg" id="fanGauge" class="shadow"></object>
+                    <object type="image/svg+xml" data="img/gauge.svg" id="fanGauge" class="gauges"></object>
 
+                    <!-- Input Box  -->
                     <!-- Setting to Automatic clears the values set -->
                     <div class="control">
                         <input class="input is-dark" type="text" placeholder="Automatic" disabled>
                     </div>
-                    <!-- Pressure  -->
+                    <!-- Input Box END -->
+
                 </div>
             </section>
         </div>
-        <!-- Fan Speed  -->
-
+        <!-- Fan Speed END -->
 
         <!-- Pressure  -->
         <div class="column">
             <section class="section">
                 <div class="box has-background-light">
                     <h3 class="title is-3">Pressure </h3>
-                    <!--   <h3 class="title is-3 has-text-right">Pressure</h3> -->
-                    <object type="image/svg+xml" data="img/gauge.svg" id="pressureGauge" class="shadow"></object>
-                    <!-- If value is "" set back to automatic mode . -->
+                    <object type="image/svg+xml" data="img/gauge.svg" id="pressureGauge" class="gauges"></object>
+
+                    <!-- Input Box  -->
+                    <!-- Setting to Automatic clears the values set -->
                     <div class="control">
                         <input class="input is-dark" type="text" placeholder="Please input value (0-100)"  min="0" max="100">
+                    <!-- Input Box END -->
 
                     </div>
                 </div>
             </section>
-
         </div>
-        <!-- Pressure  -->
+        <!-- Pressure END  -->
 
     </div>
-
+    <!-- Home Content END -->
 </div>
 
 <div class="box mx-6 mt-6 has-background-primary" id="graphContent">
@@ -93,7 +104,6 @@
             <section class="section">
                 <div class="box has-background-light">
                     <img src="http://placeimg.com/640/480/nature" height="240" alt="">
-                    <!-- Fan speed . -->
                 </div>
             </section>
         </div>
@@ -101,13 +111,11 @@
             <section class="section">
                 <div class="box has-background-light">
                     <img src="http://placeimg.com/640/480/nature" height="240" alt="">
-                    <!-- Pressure . -->
                 </div>
             </section>
         </div>
     </div>
 </div>
-
-
+<!-- Main Content END -->
 </body>
 </html>

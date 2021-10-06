@@ -20,10 +20,55 @@
 }
 
 
-.shadow {
+.gauges {
     -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
     filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
     /* Similar syntax to box-shadow */
+
+}
+
+.notification {
+    position: fixed;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 100;
+    animation: slidein 2s 1;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.3);
+    max-width: 600px;
+    background-color: whitesmoke;
+    border-radius: 4px;
+    padding: 1.25rem 2.5rem 1.25rem 1.5rem;
+}
+
+
+@keyframes slidein {
+    0% {
+    transform: translateX( 110% );
+    }
+    100% {
+        transform: translateX( 0 );
+    }
+}
+
+
+#errorContainer {
+    opacity: 1;
+    transition: opacity 1s;
+}
+
+#errorContainer.fade {
+    opacity: 0;
+}
+@keyframes slideout {
+    0% {
+        transform: translateX( 0 );
+        opacity: 1;
+    }
+    100% {
+    transform: translateX( 110% );
+        opacity: 0;
+    }
 }
 
 

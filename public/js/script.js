@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             graphDiv.style.display = "none"
         }
     });
-    //  Home button handling
+    //  Home button handling END
 
 
     //  Graph button handling
@@ -31,7 +31,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             graphDiv.style.display = "block"
         }
     });
-    //  Graph button handling
+    //  Graph button handling END
 
 });
 
@@ -40,6 +40,19 @@ window.onload = function() {
     const gaugeSvg = document.getElementById('fanGauge').contentDocument
     const pointer = gaugeSvg.getElementById('pointer')
     const modeSwitch = document.getElementById("switchImage")
+
+    const errorMessageButton = document.getElementById("errorMessage")
+    const errorContainer = document.getElementById("errorContainer")
+
+    // Mode switch button
+    errorMessageButton.addEventListener("click", () => {
+        console.log("errorMessageButton clicked.")
+       // errorContainer.style.display = "none"
+        errorContainer.classList.toggle('fade');
+
+    });
+    // Mode switch button END
+
 
 
     //  Logo fan handling
@@ -55,16 +68,16 @@ window.onload = function() {
     }
 
     setInterval(showTime, 100)
-    //  Logo fan handling
+    //  Logo fan handling END
 
 
     // pointer
-/*        pointer.setAttribute('transform-origin', '0 20');
-        pointer.setAttribute("transform", "rotate(100)");*/
+    /*        pointer.setAttribute('transform-origin', '0 20');
+            pointer.setAttribute("transform", "rotate(100)");*/
 
 
 
-        // pointer
+    // pointer
     // pointer.style.transformOrigin = '65% 58%';
 
     pointer.style.transition = "all 0.25s"
@@ -79,14 +92,13 @@ window.onload = function() {
     modeSwitch.addEventListener("click", () => {
         console.log("switchImage clicked.")
         if (systemIsAutomatic) {
-            modeSwitch.src = "img/switchMyellow.png"
+            modeSwitch.src = "img/switchMpink.png"
             systemIsAutomatic = false
         } else {
             modeSwitch.src = "img/switchA.png"
             systemIsAutomatic = true
         }
     });
-    // Mode switch button
+    // Mode switch button END
 };
-
 
