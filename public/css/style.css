@@ -40,8 +40,6 @@
     border-radius: 4px;
     padding: 1.25rem 2.5rem 1.25rem 1.5rem;
 }
-
-
 @keyframes slidein {
     0% {
     transform: translateX( 110% );
@@ -50,6 +48,9 @@
         transform: translateX( 0 );
     }
 }
+/*#gauge {
+    animation: pointerSVG__tr 3000ms linear 1 normal forwards}@keyframes pointerSVG__tr { 0% {transform: translate(221.245px,207.370756px) rotate(-120deg)} 100% {transform: translate(221.245px,207.370756px) rotate(120deg)}}*/
+
 
 
 #errorContainer {

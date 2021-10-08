@@ -4,6 +4,7 @@ import (
 	"github.com/TobiEiss/aranGoDriver"
 	"log"
 	"strconv"
+	"time"
 )
 
 var session aranGoDriver.Session
@@ -31,28 +32,37 @@ func handleDatabase() {
 
 	// Create a new database
 	err = session.CreateDB("DataVault")
-	// TODO: handle err
+	if err != nil {
+		panic(err)
+	}
 
 	// Create a new collection
 	err = session.CreateCollection("DataVault", "Data")
-	// TODO: handle err
+	if err != nil {
+		panic(err)
+	}
 
 }
 
 func appendToDB(tpackage tempData) {
 
-	foods := map[string]interface{}{
+	newData := map[string]interface{}{
 		"Nr":       strconv.Itoa(tpackage.Nr),
 		"Speed":    strconv.Itoa(tpackage.Speed),
 		"Setpoint": strconv.Itoa(tpackage.Setpoint),
 		"Pressure": strconv.Itoa(tpackage.Pressure),
 		"Auto":     strconv.FormatBool(tpackage.Auto),
 		"Err":      strconv.FormatBool(tpackage.Err),
+		"Time":     time.Now().Unix(),
 	}
 
-	_, err := session.CreateDocument("DataVault", "Data", foods)
+	_, err := session.CreateDocument("DataVault", "Data", newData)
 	if err != nil {
 		log.Println(err)
 	}
+
+}
+
+func dropDatabase() {
 
 }

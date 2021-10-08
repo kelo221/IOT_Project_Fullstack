@@ -11,7 +11,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const graphButton = document.getElementById("graphButton")
 
 
-
     //  Home button handling
     homeButton.addEventListener("click", () => {
         console.log("homeButton clicked.")
@@ -35,24 +34,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 });
 
-window.onload = function() {
+window.onload = function () {
 
     const gaugeSvg = document.getElementById('fanGauge').contentDocument
     const pointer = gaugeSvg.getElementById('pointer')
+    // const pointer = document.getElementById('pressurePointer')
     const modeSwitch = document.getElementById("switchImage")
 
     const errorMessageButton = document.getElementById("errorMessage")
     const errorContainer = document.getElementById("errorContainer")
 
-    // Mode switch button
+    // Fan Error Message
     errorMessageButton.addEventListener("click", () => {
         console.log("errorMessageButton clicked.")
-       // errorContainer.style.display = "none"
-        errorContainer.classList.toggle('fade');
+        // errorContainer.style.display = "none"
+        errorContainer.classList.toggle('fade')
+        errorContainer.style.display = "none"
 
     });
-    // Mode switch button END
-
+    // Fan Error Message END
 
 
     //  Logo fan handling
@@ -62,31 +62,19 @@ window.onload = function() {
 
     function showTime() {
         fan.style.transform = "rotate(" + currentRot + "deg)"
-        // pointer.style.transform =  "rotate(" + currentRot + "deg)"
-        // pointer.style.transform = "translate(-87px, -67px)"
+    //    pointer.style.transform =  "rotate(" + currentRot + "deg)"
         currentRot += 20
     }
 
     setInterval(showTime, 100)
     //  Logo fan handling END
 
-
-    // pointer
-    /*        pointer.setAttribute('transform-origin', '0 20');
-            pointer.setAttribute("transform", "rotate(100)");*/
-
-
-
-    // pointer
-    // pointer.style.transformOrigin = '65% 58%';
-
     pointer.style.transition = "all 0.25s"
-//    pointer.style.transformOrigin = '70% 80%'
-    pointer.style.transformOrigin = '310px 275px'
 
-    //pointer.style.transform =  "rotate(10deg)"
-    //pointer.style.transform = "translate(-87px, -67px)"
+
     console.log(pointer)
+
+    /// TODO ABSOLUTE POSITION FOR SVG
 
     // Mode switch button
     modeSwitch.addEventListener("click", () => {

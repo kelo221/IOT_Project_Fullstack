@@ -1,0 +1,29 @@
+<svg id="eoM06P3RDcT1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 442.41 344.42" shape-rendering="geometricPrecision"
+     text-rendering="geometricPrecision">
+
+    <path id="eoM06P3RDcT2" d="M212.38,366.74C171.549133,316.319193,176.682331,242.903436,224.132417,198.655195C271.582503,154.406954,345.177497,154.406954,392.627583,198.655195C440.077669,242.903436,445.210867,316.319193,404.38,366.74L492.14,412.21C516.611822,375.786189,529.642467,332.881172,529.56,289C529.56,166.83,430.56,67.79,308.36,67.79C186.16,67.79,87.15,166.83,87.15,289C87.082312,332.886379,100.1305,375.791829,124.62,412.21Z" transform="matrix(1 0 0 1 -87.150125 -67.79)" fill="rgb(110,195,124)" stroke="none" stroke-width="1"/><path id="eoM06P3RDcT3" d="M480.75,150.41L405.38,212.56C441.101355,257.88444,440.665352,321.906282,404.33,366.74L492.09,412.21C545.959536,331.851009,541.366315,225.809978,480.75,150.41Z" transform="matrix(1 0 0 1 -87.15 -67.79)" fill="rgb(243,161,65)" stroke="none" stroke-width="1"/><path id="eoM06P3RDcT4" d="M430.69,306.11C427.607147,328.348607,418.490494,349.317601,404.33,366.74L492.09,412.21C510.176332,385.322937,522.097244,354.771119,527,322.74Z" transform="matrix(1 0 0 1 -87.15 -67.79)" fill="rgb(224,127,139)" stroke="none" stroke-width="1"/><g id="pointerSVG" transform="translate(221.245,207.370756) rotate(-120)"><path id="eoM06P3RDcT5" d="M307.41,112.44L297.79,274.14C297.79,274.23,297.79,274.32,297.79,274.41C297.79,274.5,297.79,274.41,297.79,274.47L297.79,274.55L297.79,274.55C297.86,280.76,302.56,285.77,308.37,285.77C314.18,285.77,319,280.69,319,274.41Z" transform="translate(-308.395,-275.160756)" fill="rgb(62,58,57)" stroke="none" stroke-width="1"/></g>
+    <style>
+        <![CDATA[
+        #pointerSVG {
+animation: pointerSVG__tr 3000ms linear 1 normal forwards paused}
+@keyframes pointerSVG__tr {
+0% {transform: translate(221.245px,207.370756px) rotate(-120deg)
+} 100%
+{transform: translate(221.245px,207.370756px) rotate(120deg)
+}}
+]]>
+    </style>
+</svg>
+        <!--running-->
+<!--
+<style><![CDATA[
+#pointerSVG {
+animation: pointerSVG__tr 3000ms linear 1 normal forwards}
+@keyframes pointerSVG__tr {
+0% {transform: translate(221.245px,207.370756px) rotate(-120deg)
+} 100% {transform: translate(221.245px,207.370756px) rotate(120deg)
+}}
+]]></style>
+-->
