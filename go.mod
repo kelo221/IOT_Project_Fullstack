@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/TobiEiss/aranGoDriver v0.0.0-20200216071247-2a0cbce6896e
 	github.com/eclipse/paho.mqtt.golang v1.3.5
+	github.com/go-echarts/go-echarts/v2 v2.2.4
 	github.com/gofiber/fiber/v2 v2.19.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/wcharczuk/go-chart/v2 v2.1.0

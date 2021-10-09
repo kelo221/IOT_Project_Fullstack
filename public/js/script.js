@@ -40,6 +40,8 @@ window.onload = function () {
     const pointer = gaugeSvg.getElementById('pointer')
     // const pointer = document.getElementById('pressurePointer')
     const modeSwitch = document.getElementById("switchImage")
+    const graphContainer =   document.getElementById("graphObject")
+    const clearFanData = document.getElementById("clearFanData")
 
     const errorMessageButton = document.getElementById("errorMessage")
     const errorContainer = document.getElementById("errorContainer")
@@ -74,7 +76,7 @@ window.onload = function () {
 
     console.log(pointer)
 
-    /// TODO ABSOLUTE POSITION FOR SVG
+    /// TODO ABSOLUTE POSITION FOR SVG (?)
 
     // Mode switch button
     modeSwitch.addEventListener("click", () => {
@@ -88,5 +90,18 @@ window.onload = function () {
         }
     });
     // Mode switch button END
+
+    // Database button
+    clearFanData.addEventListener("click", () => {
+        console.log("database button pressed")
+      reloadGraph()
+    });
+    // Database button END
+
+
+    function reloadGraph(){
+    graphContainer.contentWindow.location.reload(true);
+    }
+
 };
 
