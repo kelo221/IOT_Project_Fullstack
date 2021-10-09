@@ -2,6 +2,7 @@
 
 let systemIsAutomatic = true
 
+
 window.addEventListener('DOMContentLoaded', (event) => {
 
     const homeDiv = document.getElementById("homeContent")
@@ -9,6 +10,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     graphDiv.style.display = "none"
     const homeButton = document.getElementById("homeButton")
     const graphButton = document.getElementById("graphButton")
+    const graphContainer =   document.getElementById("graphObject")
+    const clearFanData = document.getElementById("clearFanData")
 
 
     //  Home button handling
@@ -21,6 +24,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
     //  Home button handling END
 
+    // Database button
+    clearFanData.addEventListener("click", () => {
+        console.log("database button pressed")
+        reloadGraph()
+    });
+    // Database button END
+
+
 
     //  Graph button handling
     graphButton.addEventListener("click", () => {
@@ -29,9 +40,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
             homeDiv.style.display = "none"
             graphDiv.style.display = "block"
         }
+        graphContainer.style.transform="scale("+getGraphSize() +")"
     });
     //  Graph button handling END
 
+    function getGraphSize(){
+        return (((window.innerWidth)/(document.getElementById('graphContent').clientHeight)).toFixed(2)).toString()
+    }
+
+
+    function setGraphSize(){
+        graphContainer.style.transform="scale("+getGraphSize() +")"
+    }
+
+
+    function reloadGraph(){
+        graphContainer.contentWindow.location.reload(true);
+        console.log(getGraphSize())
+    }
+///*    -webkit-transform: scale(1);*/
+    graphContainer.style.transform="scale(0.1)"
+    graphContainer.style.transform="scale("+getGraphSize() +")"
+
+    window.onresize = setGraphSize
 });
 
 window.onload = function () {
@@ -40,11 +71,14 @@ window.onload = function () {
     const pointer = gaugeSvg.getElementById('pointer')
     // const pointer = document.getElementById('pressurePointer')
     const modeSwitch = document.getElementById("switchImage")
-    const graphContainer =   document.getElementById("graphObject")
-    const clearFanData = document.getElementById("clearFanData")
+
+
 
     const errorMessageButton = document.getElementById("errorMessage")
     const errorContainer = document.getElementById("errorContainer")
+
+
+
 
     // Fan Error Message
     errorMessageButton.addEventListener("click", () => {
@@ -91,17 +125,11 @@ window.onload = function () {
     });
     // Mode switch button END
 
-    // Database button
-    clearFanData.addEventListener("click", () => {
-        console.log("database button pressed")
-      reloadGraph()
-    });
-    // Database button END
 
 
-    function reloadGraph(){
-    graphContainer.contentWindow.location.reload(true);
-    }
+
+
+
 
 };
 

@@ -116,19 +116,23 @@
 <div class="box mx-6 mt-6 has-background-primary" id="graphContent">
 
     <div class="columns is-vcentered">
+
+
+
         <div class="column">
-            <section class="section">
-                <div class="box has-background-light">
-                    <div class="block">
-                    <object type="text/html" data="http://localhost:8080/graphRender" height="550px" width="900px" id="graphObject"
-                            style=" zoom: 50%; overflow:hidden;">        <!-- TODO  Make object scale nicely -->
-                    </object>
-                    </div>
+
+                <div class="box has-background-light" id="wrapper">
+
+
+                    <iframe id="graphObject" src="http://localhost:8080/graphRender">
+                    </iframe>
+
+
                 </div>
-            </section>
-        </div>
-        <div class="column">
-            <section class="section">
+
+
+
+
                 <div class="box has-background-light" style="height: 600px;overflow: scroll;">
                     <h1 class="title  has-text-centered">Logs</h1>
                     <table class="is-12" style="  width:100%;" >
@@ -235,12 +239,12 @@
                         </tr>
                         </table>
 
-
+                </div>
 
                 </div>
-            </section>
+
         </div>
-    </div>
+
 </div>
 <!-- Main Content END -->
 </body>
