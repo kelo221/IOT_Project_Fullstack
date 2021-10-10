@@ -8,24 +8,26 @@ import (
 	"time"
 )
 
-type tempData struct {
-	Nr       int  `json:"samplenr,omitempty"`
+type dataPackage struct {
+	Nr       int  `json:"Nr,omitempty"`
 	Speed    int  `json:"speed,omitempty"`
-	Setpoint int  `json:"setpoint,omitempty"`
+	Setpoint int  `json:"Setpoint,omitempty"`
 	Pressure int  `json:"pressure,omitempty"`
 	Auto     bool `json:"auto,omitempty"`
 	Err      bool `json:"err,omitempty"`
+	UnixTime int  `json:"UnixTime,omitempty"`
 }
 
 var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
 
-	MQTTpackage := tempData{
+	MQTTpackage := dataPackage{
 		Nr:       0,
 		Speed:    0,
 		Setpoint: 0,
 		Pressure: 0,
 		Auto:     false,
 		Err:      false,
+		UnixTime: 0,
 	}
 	//fmt.Printf("%s\n", msg.Payload())
 
@@ -35,12 +37,15 @@ var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Me
 	} else {
 		//fmt.Println(MQTTpackage)
 
+		//Add current time to MQTTpackage
+		MQTTpackage.UnixTime = int(time.Now().Unix())
+
 		//Add to array of all MQTTpackage
 		//dataStorage = append(dataStorage, MQTTpackage)
 		fmt.Println(MQTTpackage)
 
 		appendToDB(MQTTpackage)
-		//writeToDB("tempData", strconv.Itoa(MQTTpackage.SampleNr),strconv.Itoa(MQTTpackage.Temperature) )
+		//writeToDB("dataPackage", strconv.Itoa(MQTTpackage.SampleNr),strconv.Itoa(MQTTpackage.Temperature) )
 	}
 
 }

@@ -1,13 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
 	"github.com/go-echarts/go-echarts/v2/types"
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
 	"math/rand"
-	"os"
+	"time"
 )
 
 func handleHTTP() {
@@ -30,6 +31,23 @@ func handleHTTP() {
 }
 
 func graphRender(c *fiber.Ctx) error {
+
+	dataPayload := aql("FOR x IN IOT_DATA_SENSOR RETURN x")
+	var timeData []int
+	speedData := make([]opts.LineData, 0)
+	pressureData := make([]opts.LineData, 0)
+
+	//fmt.Println(dataPayload)
+
+	for _, s := range dataPayload {
+		pressureData = append(pressureData, opts.LineData{Value: s.Pressure})
+		speedData = append(speedData, opts.LineData{Value: s.Speed})
+		timeData = append(timeData, s.UnixTime)
+	}
+
+	fmt.Println("graph requested")
+
+	currentTime := time.Now()
 	c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
 
 	// create a new line instance
@@ -38,41 +56,21 @@ func graphRender(c *fiber.Ctx) error {
 	line.SetGlobalOptions(
 		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeWesteros}),
 		charts.WithTitleOpts(opts.Title{
-			Title:    "Line example in Westeros theme",
-			Subtitle: "Line chart rendered by the http server this time",
+			Title:    "Pressure and Fan Speed Data",
+			Subtitle: "Last updated: " + currentTime.Format("2006-01-02 15:04:05"),
 		}))
 
 	// Put data into instance
-	line.SetXAxis([]string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}).
-		AddSeries("Category A", generateLineItems()).
-		AddSeries("Category B", generateLineItems()).
-		SetSeriesOptions(charts.WithLineChartOpts(opts.LineChart{Smooth: true}))
+	line.SetXAxis(timeData). //	int array of sample times
+					AddSeries("Fan Speed", speedData).   //	pressure data
+					AddSeries("Pressure", pressureData). //	fan speed data
+					SetSeriesOptions(charts.WithLineChartOpts(opts.LineChart{Smooth: true}))
 	err := line.Render(c)
 	if err != nil {
 		return err
 	}
 
 	return nil
-}
-
-func generateNewHtml() {
-	// create a new line instance
-	line := charts.NewLine()
-	// set some global options like Title/Legend/ToolTip or anything else
-	line.SetGlobalOptions(
-		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeWesteros}),
-		charts.WithTitleOpts(opts.Title{
-			Title:    "Line example in Westeros theme",
-			Subtitle: "Line chart rendered by the http server this time",
-		}))
-
-	// Put data into instance
-	line.SetXAxis([]string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}).
-		AddSeries("Category A", generateLineItems()).
-		AddSeries("Category B", generateLineItems()).
-		SetSeriesOptions(charts.WithLineChartOpts(opts.LineChart{Smooth: true}))
-	f, _ := os.Create("bar.html")
-	line.Render(f)
 }
 
 // generate random data for line chart

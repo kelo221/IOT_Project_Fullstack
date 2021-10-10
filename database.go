@@ -1,68 +1,127 @@
 package main
 
 import (
-	"github.com/TobiEiss/aranGoDriver"
-	"log"
-	"strconv"
-	"time"
+	"context"
+	_ "context"
+	"crypto/tls"
+	"fmt"
+
+	"github.com/arangodb/go-driver"
+	"github.com/arangodb/go-driver/http"
 )
 
-var session aranGoDriver.Session
+var col driver.Collection
 
-//https://github.com/TobiEiss/aranGoDriver
 func handleDatabase() {
 
-	// Initialize a arango-Session with the address to your arangoDB.
-	//
-	// If you write a test use:
-	// session = aranGoDriver.NewTestSession()
-	//
-	session = aranGoDriver.NewAranGoDriverSession("http://localhost:8529")
-
-	// Connect to your arango-database:
-	session.Connect("root", "1234")
-
-	// Concrats, you are connected!
-	// Let's print out all your databases
-	list, err := session.ListDBs()
+	conn, err := http.NewConnection(http.ConnectionConfig{
+		Endpoints: []string{"http://localhost:8529"},
+		TLSConfig: &tls.Config{ /*...*/ },
+	})
 	if err != nil {
-		log.Fatal("there was a problem: ", err)
+		fmt.Println(err)
 	}
-	log.Println(list)
-
-	// Create a new database
-	err = session.CreateDB("DataVault")
+	client, err := driver.NewClient(driver.ClientConfig{
+		Connection:     conn,
+		Authentication: driver.BasicAuthentication("root", "1234"),
+	})
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 
-	// Create a new collection
-	err = session.CreateCollection("DataVault", "Data")
+	// Create a database
+	db, err := client.Database(nil, "IOT_DATA")
 	if err != nil {
-		panic(err)
+		fmt.Println(err, "creating new...")
+		ctx := context.Background()
+		db, err = client.CreateDatabase(ctx, "IOT_DATA", nil)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
+	// Create a collection
+	col, err = db.Collection(nil, "IOT_DATA_SENSOR")
+	if err != nil {
+		fmt.Println(err, "creating new...")
+		ctx := context.Background()
+		options := &driver.CreateCollectionOptions{ /* ... */ }
+		col, err = db.CreateCollection(ctx, "IOT_DATA_SENSOR", options)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
 }
 
-func appendToDB(tpackage tempData) {
+func appendToDB(tpackage dataPackage) {
 
-	newData := map[string]interface{}{
-		"Nr":       strconv.Itoa(tpackage.Nr),
-		"Speed":    strconv.Itoa(tpackage.Speed),
-		"Setpoint": strconv.Itoa(tpackage.Setpoint),
-		"Pressure": strconv.Itoa(tpackage.Pressure),
-		"Auto":     strconv.FormatBool(tpackage.Auto),
-		"Err":      strconv.FormatBool(tpackage.Err),
-		"Time":     time.Now().Unix(),
-	}
-
-	_, err := session.CreateDocument("DataVault", "Data", newData)
+	ctx := context.Background()
+	meta, err := col.CreateDocument(ctx, tpackage)
 	if err != nil {
-		log.Println(err)
+		// handle error
 	}
+	fmt.Printf("Created document with key '%s', revision '%s'\n", meta.Key, meta.Rev)
 
 }
 
 func dropDatabase() {
 
+}
+
+func aql(query string) []dataPackage {
+
+	conn, err := http.NewConnection(http.ConnectionConfig{
+		Endpoints: []string{"http://localhost:8529"},
+		TLSConfig: &tls.Config{ /*...*/ },
+	})
+	if err != nil {
+		fmt.Println(err)
+	}
+	client, err := driver.NewClient(driver.ClientConfig{
+		Connection:     conn,
+		Authentication: driver.BasicAuthentication("root", "1234"),
+	})
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Create a database
+	db, err := client.Database(nil, "IOT_DATA")
+	if err != nil {
+		fmt.Println(err, "creating new...")
+		ctx := context.Background()
+		db, err = client.CreateDatabase(ctx, "IOT_DATA", nil)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	var dataPayload []dataPackage
+
+	ctx := context.Background()
+	//query = "FOR Speed IN IOT_DATA_SENSOR RETURN Speed"
+	cursor, err := db.Query(ctx, query, nil)
+	if err != nil {
+		// handle error
+	}
+	defer func(cursor driver.Cursor) {
+		err3 := cursor.Close()
+		if err3 != nil {
+			fmt.Println(err3)
+		}
+	}(cursor)
+	for {
+		var doc dataPackage
+		_, err2 := cursor.ReadDocument(ctx, &doc)
+		if driver.IsNoMoreDocuments(err2) {
+			break
+		} else if err2 != nil {
+			fmt.Println(err2)
+		}
+		//fmt.Printf("Got doc with key '%s' from query\n", meta.Rev)
+		//fmt.Println(doc)
+		dataPayload = append(dataPayload, doc)
+	}
+
+	return dataPayload
 }

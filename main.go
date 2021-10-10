@@ -1,8 +1,12 @@
 package main
 
 func main() {
-	//getPng()				//TODO	Update image when new sample is received
-	go handleDatabase()
+
+	handleDatabase()
 	go handleMQTT()
+
+	//aql("FOR x IN IOT_DATA_SENSOR RETURN x")
+
 	handleHTTP()
+
 }

@@ -13,7 +13,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const graphContainer =   document.getElementById("graphObject")
     const clearFanData = document.getElementById("clearFanData")
 
-
     //  Home button handling
     homeButton.addEventListener("click", () => {
         console.log("homeButton clicked.")
@@ -31,6 +30,34 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
     // Database button END
 
+    //  Graph  handling
+    function yourFunction(){
+        reloadGraph()
+
+        setTimeout(yourFunction, 5000);
+    }
+    yourFunction();
+
+    function getGraphSize(){
+        return (((window.innerWidth)/(document.getElementById('graphContent').clientHeight)).toFixed(2)).toString()
+    }
+
+    function setGraphSize(){
+        graphContainer.style.transform="scale("+getGraphSize() +")"
+    }
+
+
+    function reloadGraph(){
+        graphContainer.contentWindow.location.reload(true);
+        //  console.log(getGraphSize())
+        console.log("reloaded graph")
+    }
+
+    graphContainer.style.transform="scale(0.1)"
+    graphContainer.style.transform="scale("+getGraphSize() +")"
+
+    window.onresize = setGraphSize
+    //  Graph  handling END
 
 
     //  Graph button handling
@@ -44,25 +71,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
     //  Graph button handling END
 
-    function getGraphSize(){
-        return (((window.innerWidth)/(document.getElementById('graphContent').clientHeight)).toFixed(2)).toString()
-    }
 
-
-    function setGraphSize(){
-        graphContainer.style.transform="scale("+getGraphSize() +")"
-    }
-
-
-    function reloadGraph(){
-        graphContainer.contentWindow.location.reload(true);
-        console.log(getGraphSize())
-    }
-///*    -webkit-transform: scale(1);*/
-    graphContainer.style.transform="scale(0.1)"
-    graphContainer.style.transform="scale("+getGraphSize() +")"
-
-    window.onresize = setGraphSize
 });
 
 window.onload = function () {
@@ -72,13 +81,8 @@ window.onload = function () {
     // const pointer = document.getElementById('pressurePointer')
     const modeSwitch = document.getElementById("switchImage")
 
-
-
     const errorMessageButton = document.getElementById("errorMessage")
     const errorContainer = document.getElementById("errorContainer")
-
-
-
 
     // Fan Error Message
     errorMessageButton.addEventListener("click", () => {
@@ -91,26 +95,9 @@ window.onload = function () {
     // Fan Error Message END
 
 
-    //  Logo fan handling
-    const fan = document.getElementById("fan")
-    let currentRot = 0
-    fan.style.transition = "all 0.25s"
-
-    function showTime() {
-        fan.style.transform = "rotate(" + currentRot + "deg)"
-    //    pointer.style.transform =  "rotate(" + currentRot + "deg)"
-        currentRot += 20
-    }
-
-    setInterval(showTime, 100)
-    //  Logo fan handling END
-
     pointer.style.transition = "all 0.25s"
 
-
     console.log(pointer)
-
-    /// TODO ABSOLUTE POSITION FOR SVG (?)
 
     // Mode switch button
     modeSwitch.addEventListener("click", () => {
@@ -124,11 +111,6 @@ window.onload = function () {
         }
     });
     // Mode switch button END
-
-
-
-
-
 
 
 };
