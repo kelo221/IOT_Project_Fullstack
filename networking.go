@@ -17,7 +17,8 @@ func handleHTTP() {
 	app.Static("/", "./public")
 
 	// Match all routes starting with /api
-	app.Delete("/clearDatabase", func(c *fiber.Ctx) error {
+	app.Delete("/clearDatabase", func(c *fiber.Ctx) error { ///TODO return 200
+		fmt.Println("Requested to clear collection")
 		dropDatabase()
 		return c.Next()
 	})
