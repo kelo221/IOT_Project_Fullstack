@@ -77,7 +77,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 window.onload = function () {
 
     const gaugeSvg = document.getElementById('fanGauge').contentDocument
-    const pointer = gaugeSvg.getElementById('pointer')
+    const pointer = gaugeSvg.getElementById('pointerSVG')
     // const pointer = document.getElementById('pressurePointer')
     const modeSwitch = document.getElementById("switchImage")
 
@@ -93,7 +93,7 @@ window.onload = function () {
 
     });
     // Fan Error Message END
-
+    pointer.style.transform ="translate(221.245px,207.370756px) rotate(-600deg)"
 
     pointer.style.transition = "all 0.25s"
 
@@ -101,6 +101,7 @@ window.onload = function () {
 
     // Mode switch button
     modeSwitch.addEventListener("click", () => {
+
         console.log("switchImage clicked.")
         if (systemIsAutomatic) {
             modeSwitch.src = "img/switchMpink.png"

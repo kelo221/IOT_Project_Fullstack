@@ -53,7 +53,7 @@ func handleDatabase() {
 	}
 }
 
-func appendToDB(tpackage dataPackage) {
+func appendToDB(tpackage dataPackageIn) {
 
 	ctx := context.Background()
 	meta, err := col.CreateDocument(ctx, tpackage)
@@ -119,7 +119,7 @@ func dropDatabase() {
 
 }
 
-func aql(query string) []dataPackage {
+func aql(query string) []dataPackageIn {
 
 	conn, err := http.NewConnection(http.ConnectionConfig{
 		Endpoints: []string{"http://localhost:8529"},
@@ -147,7 +147,7 @@ func aql(query string) []dataPackage {
 		}
 	}
 
-	var dataPayload []dataPackage
+	var dataPayload []dataPackageIn
 
 	ctx := context.Background()
 	//query = "FOR Speed IN IOT_DATA_SENSOR RETURN Speed"
@@ -162,7 +162,7 @@ func aql(query string) []dataPackage {
 		}
 	}(cursor)
 	for {
-		var doc dataPackage
+		var doc dataPackageIn
 		_, err2 := cursor.ReadDocument(ctx, &doc)
 		if driver.IsNoMoreDocuments(err2) {
 			break

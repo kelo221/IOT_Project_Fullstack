@@ -11,7 +11,7 @@ animation: pointerSVG__tr 3000ms linear 1 normal forwards paused}
 @keyframes pointerSVG__tr {
 0% {transform: translate(221.245px,207.370756px) rotate(-120deg)
 } 100%
-{transform: translate(221.245px,207.370756px) rotate(120deg)
+{transform: translate(221.245px,207.370756px) rotate(-120deg)
 }}
 ]]>
     </style>

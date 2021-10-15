@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type dataPackage struct {
+type dataPackageIn struct {
 	Nr       int  `json:"Nr,omitempty"`
 	Speed    int  `json:"speed,omitempty"`
 	Setpoint int  `json:"Setpoint,omitempty"`
@@ -20,7 +20,7 @@ type dataPackage struct {
 
 var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
 
-	MQTTpackage := dataPackage{
+	MQTTpackage := dataPackageIn{
 		Nr:       0,
 		Speed:    0,
 		Setpoint: 0,
@@ -45,7 +45,7 @@ var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Me
 		fmt.Println(MQTTpackage)
 
 		appendToDB(MQTTpackage)
-		//writeToDB("dataPackage", strconv.Itoa(MQTTpackage.SampleNr),strconv.Itoa(MQTTpackage.Temperature) )
+		//writeToDB("dataPackageIn", strconv.Itoa(MQTTpackage.SampleNr),strconv.Itoa(MQTTpackage.Temperature) )
 	}
 
 }
@@ -74,7 +74,7 @@ func sub(client mqtt.Client) {
 	fmt.Printf("Subscribed to topic: %s \n", topic)
 }
 
-func handleMQTT() {
+func handleMQTTIn() {
 
 	var broker = "localhost"
 	var port = 1883
