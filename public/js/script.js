@@ -13,6 +13,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const graphContainer =   document.getElementById("graphObject")
     const clearFanData = document.getElementById("clearFanData")
 
+
     //  Home button handling
     homeButton.addEventListener("click", () => {
         console.log("homeButton clicked.")
@@ -84,6 +85,9 @@ window.onload = function () {
     const errorMessageButton = document.getElementById("errorMessage")
     const errorContainer = document.getElementById("errorContainer")
 
+    const pressureInput = document.getElementById("pressureInputBox")
+    const fanSpeedInput = document.getElementById("fanSpeedInputBox")
+
     // Fan Error Message
     errorMessageButton.addEventListener("click", () => {
         console.log("errorMessageButton clicked.")
@@ -93,7 +97,7 @@ window.onload = function () {
 
     });
     // Fan Error Message END
-    pointer.style.transform ="translate(221.245px,207.370756px) rotate(-600deg)"
+    //pointer.style.transform ="translate(221.245px,207.370756px) rotate(-600deg)"
 
     pointer.style.transition = "all 0.25s"
 
@@ -106,7 +110,11 @@ window.onload = function () {
         if (systemIsAutomatic) {
             modeSwitch.src = "img/switchMpink.png"
             systemIsAutomatic = false
+            fanSpeedInput.removeAttribute('disabled')
+            pressureInput.removeAttribute('disabled')
         } else {
+            fanSpeedInput.setAttribute('disabled', null);
+            pressureInput.setAttribute('disabled', null);
             modeSwitch.src = "img/switchA.png"
             systemIsAutomatic = true
         }

@@ -12,5 +12,7 @@
     <orderEntry type="library" name="vue" level="application" />
     <orderEntry type="library" name="bonsai" level="application" />
     <orderEntry type="library" name="raphael" level="application" />
+    <orderEntry type="library" name="97f2692db1" level="application" />
+    <orderEntry type="library" name="bulma" level="application" />
   </component>
 </module>
