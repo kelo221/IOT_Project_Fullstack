@@ -18,6 +18,7 @@ var newAuto bool
 var newPressure int
 var newSpeed int
 
+//test
 func handleMQTTOut() {
 
 	newAuto = true
