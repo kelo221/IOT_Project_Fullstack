@@ -8,6 +8,7 @@
     <script src="https://kit.fontawesome.com/97f2692db1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/axios.min.js"></script>
 
 </head>
 
@@ -81,9 +82,10 @@
                     <!-- Input Box  -->
                     <!-- Setting to Automatic clears the values set -->
                     <div class="control">
-                        <input class="input is-dark" type="text" placeholder="Automatic" disabled>
+                        <input class="input is-dark" type="text" id="fanSpeedInputBox" placeholder="Please input value (0-100)"  min="0" max="100" disabled>
                     </div>
                     <!-- Input Box END -->
+                    <button class="button mt-1" id="fanDataButton" title="Disabled button" disabled>Send</button>
 
                 </div>
             </section>
@@ -100,20 +102,23 @@
                     <!-- Input Box  -->
                     <!-- Setting to Automatic clears the values set -->
                     <div class="control">
-                        <input class="input is-dark" type="text" placeholder="Please input value (0-100)"  min="0" max="100">
+                        <input class="input is-dark" type="text" id="pressureInputBox" placeholder="Please input value (0-100)"  min="0" max="100" disabled>
                         <!-- Input Box END -->
 
+
                     </div>
+                    <button class="button mt-1" id="pressureDataButton" title="Disabled button" disabled>Send</button>
                 </div>
             </section>
         </div>
         <!-- Pressure END  -->
 
     </div>
+</div>
     <!-- Home Content END -->
 </div>
 
-<div class="box mx-6 mt-6 has-background-primary" id="graphContent">
+<div class="box mx-2 mt-2 has-background-primary" id="graphContent">
 
     <div class="columns is-vcentered">
 

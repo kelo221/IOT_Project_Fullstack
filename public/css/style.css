@@ -6,8 +6,8 @@
 #switch{
     width: auto;
     height: auto;
-    max-width: 10vw;
-    max-height: 10vh;
+    max-width: 8vw;
+    max-height: 8vh;
     margin-left: 3%;
     margin-top:5px ;
 }
@@ -52,6 +52,9 @@ height: 90vh;*/
     filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
     /* Similar syntax to box-shadow */
 
+}
+.gauges{
+    max-height: 450px;
 }
 
 .notification {

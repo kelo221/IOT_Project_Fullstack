@@ -16,11 +16,34 @@ func handleHTTP() {
 	app := fiber.New()
 	app.Static("/", "./public")
 
-	// Match all routes starting with /api
-	app.Delete("/clearDatabase", func(c *fiber.Ctx) error { ///TODO return 200
+	app.Delete("/clearDatabase", func(c *fiber.Ctx) error {
 		fmt.Println("Requested to clear collection")
 		dropDatabase()
-		return c.Next()
+		return c.SendString("Data deleted")
+	})
+
+	app.Post("/getUserSettings", func(c *fiber.Ctx) error {
+		fmt.Println("User data sent")
+		//fmt.Println(string(c.Body()))
+
+		payload := struct {
+			Auto     bool `json:"auto,omitempty"`
+			Pressure int  `json:"pressure,omitempty"`
+			Speed    int  `json:"speed,omitempty"`
+		}{}
+
+		p := payload
+		if err := c.BodyParser(&p); err != nil {
+			fmt.Println(err)
+			return err
+		}
+
+		newAuto = p.Auto
+		newPressure = p.Pressure
+		newSpeed = p.Speed
+
+		fmt.Println(p)
+		return c.SendString("Data OK")
 	})
 
 	app.Get("/graphRender", graphRender)
@@ -46,7 +69,7 @@ func graphRender(c *fiber.Ctx) error {
 		timeData = append(timeData, s.UnixTime)
 	}
 
-	fmt.Println("graph requested")
+	///fmt.Println("graph requested")
 
 	currentTime := time.Now()
 	c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)

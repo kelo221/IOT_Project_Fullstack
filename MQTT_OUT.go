@@ -14,7 +14,15 @@ type dataPackageOut struct { //Either send speed or pressure
 	Speed    int  `json:"speed,omitempty"`
 }
 
+var newAuto bool
+var newPressure int
+var newSpeed int
+
 func handleMQTTOut() {
+
+	newAuto = true
+	newPressure = 0
+	newSpeed = 0
 
 	opts := MQTT.NewClientOptions().AddBroker("tcp://localhost:1883")
 
@@ -29,9 +37,9 @@ func handleMQTTOut() {
 		for {
 
 			message := dataPackageOut{
-				Auto:     true,
-				Pressure: 10,
-				Speed:    10,
+				Auto:     newAuto,
+				Pressure: newPressure,
+				Speed:    newSpeed,
 			}
 			messageJSON, err := json.Marshal(message)
 			if err != nil {

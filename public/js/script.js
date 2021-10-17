@@ -13,6 +13,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const graphContainer =   document.getElementById("graphObject")
     const clearFanData = document.getElementById("clearFanData")
 
+
     //  Home button handling
     homeButton.addEventListener("click", () => {
         console.log("homeButton clicked.")
@@ -76,13 +77,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 window.onload = function () {
 
-    const gaugeSvg = document.getElementById('fanGauge').contentDocument
-    const pointer = gaugeSvg.getElementById('pointerSVG')
+    //const gaugeSvg = document.getElementById('pressureGauge').contentDocument
+   // const pointer = gaugeSvg.getElementById('pointer')
     // const pointer = document.getElementById('pressurePointer')
     const modeSwitch = document.getElementById("switchImage")
 
     const errorMessageButton = document.getElementById("errorMessage")
     const errorContainer = document.getElementById("errorContainer")
+
+    const pressureInput = document.getElementById("pressureInputBox")
+    const fanSpeedInput = document.getElementById("fanSpeedInputBox")
+
+    const pressureInputButton = document.getElementById("pressureDataButton")
+    const fanSpeedInputButton = document.getElementById("fanDataButton")
 
     // Fan Error Message
     errorMessageButton.addEventListener("click", () => {
@@ -93,11 +100,11 @@ window.onload = function () {
 
     });
     // Fan Error Message END
-    pointer.style.transform ="translate(221.245px,207.370756px) rotate(-600deg)"
+    //pointer.style.transform ="translate(221.245px,207.370756px) rotate(-600deg)"
 
-    pointer.style.transition = "all 0.25s"
+   // pointer.style.transition = "all 0.25s"
 
-    console.log(pointer)
+   // pointer.style.transform console.log(pointer)
 
     // Mode switch button
     modeSwitch.addEventListener("click", () => {
@@ -106,13 +113,68 @@ window.onload = function () {
         if (systemIsAutomatic) {
             modeSwitch.src = "img/switchMpink.png"
             systemIsAutomatic = false
+            fanSpeedInput.removeAttribute('disabled')
+            pressureInput.removeAttribute('disabled')
+            fanSpeedInputButton.removeAttribute('disabled')
+            pressureInputButton.removeAttribute('disabled')
         } else {
+            fanSpeedInput.setAttribute('disabled', null);
+            pressureInput.setAttribute('disabled', null);
+            fanSpeedInputButton.setAttribute('disabled', null);
+            pressureInputButton.setAttribute('disabled', null);
             modeSwitch.src = "img/switchA.png"
             systemIsAutomatic = true
+            sendUserSettings(null, null)
         }
     });
     // Mode switch button END
 
 
+    // Fan speed input
+    fanSpeedInputButton.addEventListener("click", () => {
+        const value = parseInt(fanSpeedInput.value)
+        console.log(value)
+        sendUserSettings("speed", value)
+    });
+    // Fan speed input END
+
+    // Pressure speed input
+    pressureInputButton.addEventListener("click", () => {
+        const value = parseInt(pressureInput.value)
+        console.log(value)
+        sendUserSettings("pressure", value)
+    });
+    // Pressure speed input END
+
+
+
+
 };
+
+
+ function sendUserSettings(mode, value) {
+     let json = JSON.stringify({ Auto: systemIsAutomatic,speed: 0, pressure: 0 });
+     if (mode==="pressure")
+        json = JSON.stringify({ Auto: systemIsAutomatic,speed: null, pressure: value });
+     if (mode==="speed")
+         json = JSON.stringify({ Auto: systemIsAutomatic, speed: value, pressure:null });
+
+     axios({
+        method: "post",
+        url: "http://localhost:8080/getUserSettings",
+        data: json,
+        headers: {
+            "Content-Type": "application/json",
+        },
+
+    })
+        .then(function (response) {
+            //handle success
+            console.log(response);
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response);
+        });
+}
 
