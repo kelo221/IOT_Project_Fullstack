@@ -1,18 +1,45 @@
 package main
 
 import (
+	"crypto/subtle"
+	"encoding/hex"
 	"fmt"
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
 	"github.com/go-echarts/go-echarts/v2/types"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/basicauth"
+	_ "github.com/gofiber/fiber/v2/middleware/basicauth"
 	"github.com/sirupsen/logrus"
+	"strings"
 	"time"
 )
 
 func handleHTTP() {
 
 	app := fiber.New()
+	// Provide a minimal config
+
+	app.Use(basicauth.New(basicauth.Config{
+		Authorizer: func(user, pass string) bool {
+			salt := []byte("salt")
+
+			//Maybe this will prevent injections?
+			user = strings.Replace(user, " ", "", -1)
+
+			passwordHash := hex.EncodeToString(HashPassword([]byte(pass), salt))
+			expectedPasswordHash := aqlToString("FOR r IN IOT_DATA_LOGIN FILTER r.username == \"" + user + "\" RETURN r.hash")
+
+			usernameMatch := subtle.ConstantTimeCompare([]byte(passwordHash[:]), []byte((expectedPasswordHash[:]))) == 1
+
+			if usernameMatch {
+				return true
+			}
+
+			return false
+		},
+	}))
+
 	app.Static("/", "./public")
 
 	app.Delete("/clearDatabase", func(c *fiber.Ctx) error {

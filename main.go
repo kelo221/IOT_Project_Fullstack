@@ -3,7 +3,7 @@ package main
 func main() {
 
 	handleDatabase()
-	handleLogin()
+	createAccounts()
 	go handleMQTTIn()
 
 	handleHTTP()

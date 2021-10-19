@@ -4,6 +4,7 @@ import (
 	"context"
 	_ "context"
 	"crypto/tls"
+	"encoding/hex"
 	"fmt"
 
 	"github.com/arangodb/go-driver"
@@ -97,17 +98,20 @@ func dropDatabase() {
 
 }
 
-func handleLogin() {
+func createAccounts() {
 	salt := []byte("salt")
-	fmt.Println(salt)
 
-	aqlNoReturn("UPSERT { user: 'v' }" +
-		"INSERT { loginDate: DATE_NOW(), user: 'v', logins: 1, hash: '" + string(HashPassword([]byte("v"), salt)) + "' }" +
-		"UPDATE { logins: OLD.logins + 1, loginDate: DATE_NOW() } IN IOT_DATA_LOGIN")
+	aqlNoReturn("UPSERT { username: 'v' } " +
+		"INSERT { username: 'v', hash: '" + hex.EncodeToString(HashPassword([]byte("v"), salt)) + "', dateCreated: DATE_NOW() } " +
+		"UPDATE {} IN IOT_DATA_LOGIN")
 
-	aqlNoReturn("UPSERT { user: 'x' }" +
-		"INSERT { loginDate: DATE_NOW(), user: 'x', logins: 1, hash: '" + string(HashPassword([]byte("x"), salt)) + "' }" +
-		"UPDATE { logins: OLD.logins + 1, loginDate: DATE_NOW() } IN IOT_DATA_LOGIN")
+	aqlNoReturn("UPSERT { username: 'x' } " +
+		"INSERT { username: 'x', hash: '" + hex.EncodeToString(HashPassword([]byte("x"), salt)) + "', dateCreated: DATE_NOW() } " +
+		"UPDATE {} IN IOT_DATA_LOGIN")
+
+	aqlNoReturn("UPSERT { username: 'teach' } " +
+		"INSERT { username: 'teach', hash: '" + hex.EncodeToString(HashPassword([]byte("teach"), salt)) + "', dateCreated: DATE_NOW() } " +
+		"UPDATE {} IN IOT_DATA_LOGIN")
 
 }
 
@@ -157,4 +161,34 @@ func aqlNoReturn(query string) {
 		}
 	}(cursor)
 
+}
+
+func aqlToString(query string) string {
+
+	var result string
+
+	ctx := context.Background()
+	//query = "FOR Speed IN IOT_DATA_SENSOR RETURN Speed"
+	cursor, err := db.Query(ctx, query, nil)
+	if err != nil {
+		// handle error
+	}
+	defer func(cursor driver.Cursor) {
+		err3 := cursor.Close()
+		if err3 != nil {
+			fmt.Println(err3)
+		}
+	}(cursor)
+	for {
+		_, err2 := cursor.ReadDocument(ctx, &result)
+		if driver.IsNoMoreDocuments(err2) {
+			break
+		} else if err2 != nil {
+			fmt.Println(err2)
+		}
+
+		//fmt.Println(result)
+	}
+
+	return result
 }
