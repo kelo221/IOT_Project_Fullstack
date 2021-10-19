@@ -42,6 +42,7 @@ func handleMQTTOut() {
 				Pressure: newPressure,
 				Speed:    newSpeed,
 			}
+			fmt.Println("sending this: ", message)
 			messageJSON, err := json.Marshal(message)
 			if err != nil {
 				fmt.Println(err)

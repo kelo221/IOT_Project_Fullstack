@@ -4,9 +4,9 @@ func main() {
 
 	handleDatabase()
 	go handleMQTTIn()
-	go handleMQTTOut()
+	//go handleMQTTOut()
 
-	//aql("FOR x IN IOT_DATA_SENSOR RETURN x")
+	//	aql("FOR x IN IOT_DATA_SENSOR RETURN x")
 
 	handleHTTP()
 

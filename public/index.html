@@ -72,25 +72,7 @@
     <!-- Home Content -->
     <div class="columns is-vcentered">
 
-        <!-- Fan Speed  -->
-        <div class="column">
-            <section class="section">
-                <div class="box has-background-light">
-                    <h3 class="title is-3">Fan Speed</h3>
-                    <object type="image/svg+xml" data="img/gauge_anim.svg" id="fanGauge" class="gauges"></object>
 
-                    <!-- Input Box  -->
-                    <!-- Setting to Automatic clears the values set -->
-                    <div class="control">
-                        <input class="input is-dark" type="text" id="fanSpeedInputBox" placeholder="Please input value (0-100)"  min="0" max="100" disabled>
-                    </div>
-                    <!-- Input Box END -->
-                    <button class="button mt-1" id="fanDataButton" title="Disabled button" disabled>Send</button>
-
-                </div>
-            </section>
-        </div>
-        <!-- Fan Speed END -->
 
         <!-- Pressure  -->
         <div class="column">
@@ -102,16 +84,36 @@
                     <!-- Input Box  -->
                     <!-- Setting to Automatic clears the values set -->
                     <div class="control">
-                        <input class="input is-dark" type="text" id="pressureInputBox" placeholder="Please input value (0-100)"  min="0" max="100" disabled>
+                        <input class="input is-dark" type="number" id="pressureInputBox" placeholder="Choose a pressure (0-120Pa)"  min="0" max="120" >
                         <!-- Input Box END -->
 
 
                     </div>
-                    <button class="button mt-1" id="pressureDataButton" title="Disabled button" disabled>Send</button>
+                    <button class="button mt-1" id="pressureDataButton" title="Disabled button" >Send</button>
                 </div>
             </section>
         </div>
         <!-- Pressure END  -->
+
+        <!-- Fan Speed  -->
+        <div class="column">
+            <section class="section">
+                <div class="box has-background-light">
+                    <h3 class="title is-3">Fan Speed</h3>
+                    <object type="image/svg+xml" data="img/gauge_anim.svg" id="fanGauge" class="gauges"></object>
+
+                    <!-- Input Box  -->
+                    <!-- Setting to Automatic clears the values set -->
+                    <div class="control">
+                        <input class="input is-dark" type="number" id="fanSpeedInputBox" placeholder="Choose a fan speed (0-100%)"  min="0" max="100" disabled >
+                    </div>
+                    <!-- Input Box END -->
+                    <button class="button mt-1" id="fanDataButton" title="Disabled button" disabled >Send</button>
+
+                </div>
+            </section>
+        </div>
+        <!-- Fan Speed END -->
 
     </div>
 </div>

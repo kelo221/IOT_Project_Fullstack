@@ -10,6 +10,7 @@ import (
 	"github.com/arangodb/go-driver/http"
 )
 
+var db driver.Database
 var col driver.Collection
 
 func handleDatabase() {
@@ -30,7 +31,7 @@ func handleDatabase() {
 	}
 
 	// Create a database
-	db, err := client.Database(nil, "IOT_DATA")
+	db, err = client.Database(nil, "IOT_DATA")
 	if err != nil {
 		fmt.Println(err, "creating new...")
 		ctx := context.Background()
@@ -66,43 +67,7 @@ func appendToDB(tpackage dataPackageIn) {
 
 func dropDatabase() {
 
-	conn, err := http.NewConnection(http.ConnectionConfig{
-		Endpoints: []string{"http://localhost:8529"},
-		TLSConfig: &tls.Config{ /*...*/ },
-	})
-	if err != nil {
-		fmt.Println(err)
-	}
-	client, err := driver.NewClient(driver.ClientConfig{
-		Connection:     conn,
-		Authentication: driver.BasicAuthentication("root", "1234"),
-	})
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	// Create a database
-	db, err := client.Database(nil, "IOT_DATA")
-	if err != nil {
-		fmt.Println(err, "creating new...")
-		ctx := context.Background()
-		db, err = client.CreateDatabase(ctx, "IOT_DATA", nil)
-		if err != nil {
-			fmt.Println(err)
-		}
-	}
-
-	// Create a collection
-	col, err = db.Collection(nil, "IOT_DATA_SENSOR")
-	if err != nil {
-		fmt.Println(err, "creating new...")
-		ctx := context.Background()
-		options := &driver.CreateCollectionOptions{ /* ... */ }
-		col, err = db.CreateCollection(ctx, "IOT_DATA_SENSOR", options)
-		if err != nil {
-			fmt.Println(err)
-		}
-	}
+	fmt.Println("Database dropped")
 
 	ctx := context.Background()
 	query := "FOR u IN IOT_DATA_SENSOR REMOVE u IN IOT_DATA_SENSOR"
@@ -120,32 +85,6 @@ func dropDatabase() {
 }
 
 func aql(query string) []dataPackageIn {
-
-	conn, err := http.NewConnection(http.ConnectionConfig{
-		Endpoints: []string{"http://localhost:8529"},
-		TLSConfig: &tls.Config{ /*...*/ },
-	})
-	if err != nil {
-		fmt.Println(err)
-	}
-	client, err := driver.NewClient(driver.ClientConfig{
-		Connection:     conn,
-		Authentication: driver.BasicAuthentication("root", "1234"),
-	})
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	// Create a database
-	db, err := client.Database(nil, "IOT_DATA")
-	if err != nil {
-		fmt.Println(err, "creating new...")
-		ctx := context.Background()
-		db, err = client.CreateDatabase(ctx, "IOT_DATA", nil)
-		if err != nil {
-			fmt.Println(err)
-		}
-	}
 
 	var dataPayload []dataPackageIn
 

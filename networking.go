@@ -39,6 +39,10 @@ func handleHTTP() {
 			return err
 		}
 
+		newAuto = false
+		newPressure = 0
+		newSpeed = 0
+
 		newAuto = p.Auto
 		newPressure = p.Pressure
 		newSpeed = p.Speed
