@@ -7,11 +7,9 @@ import (
 	"github.com/go-echarts/go-echarts/v2/types"
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
-	"math/rand"
 	"time"
 )
 
-//test
 func handleHTTP() {
 
 	app := fiber.New()
@@ -20,35 +18,19 @@ func handleHTTP() {
 	app.Delete("/clearDatabase", func(c *fiber.Ctx) error {
 		fmt.Println("Requested to clear collection")
 		dropDatabase()
-		return c.SendString("Data deleted")
+		return c.SendStatus(200)
 	})
 
 	app.Post("/getUserSettings", func(c *fiber.Ctx) error {
 		fmt.Println("User data sent")
-		//fmt.Println(string(c.Body()))
+		fmt.Println(string(c.Body()))
 
-		payload := struct {
-			Auto     bool `json:"auto,omitempty"`
-			Pressure int  `json:"pressure,omitempty"`
-			Speed    int  `json:"speed,omitempty"`
-		}{}
-
-		p := payload
-		if err := c.BodyParser(&p); err != nil {
-			fmt.Println(err)
-			return err
+		if (string(c.Body())) == "" {
+			return c.SendStatus(404)
 		}
 
-		newAuto = false
-		newPressure = 0
-		newSpeed = 0
-
-		newAuto = p.Auto
-		newPressure = p.Pressure
-		newSpeed = p.Speed
-
-		fmt.Println(p)
-		return c.SendString("Data OK")
+		handleMQTTOut(string(c.Body()))
+		return c.SendStatus(200)
 	})
 
 	app.Get("/graphRender", graphRender)
@@ -66,15 +48,11 @@ func graphRender(c *fiber.Ctx) error {
 	speedData := make([]opts.LineData, 0)
 	pressureData := make([]opts.LineData, 0)
 
-	//fmt.Println(dataPayload)
-
 	for _, s := range dataPayload {
 		pressureData = append(pressureData, opts.LineData{Value: s.Pressure})
 		speedData = append(speedData, opts.LineData{Value: s.Speed})
 		timeData = append(timeData, s.UnixTime)
 	}
-
-	///fmt.Println("graph requested")
 
 	currentTime := time.Now()
 	c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
@@ -100,13 +78,4 @@ func graphRender(c *fiber.Ctx) error {
 	}
 
 	return nil
-}
-
-// generate random data for line chart
-func generateLineItems() []opts.LineData {
-	items := make([]opts.LineData, 0)
-	for i := 0; i < 7; i++ {
-		items = append(items, opts.LineData{Value: rand.Intn(300)})
-	}
-	return items
 }

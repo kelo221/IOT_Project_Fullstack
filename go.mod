@@ -10,6 +10,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.8
 	github.com/sirupsen/logrus v1.8.1
 	github.com/tjarratt/babble v0.0.0-20210505082055-cbca2a4833c1
+	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a
 )
 
 require (

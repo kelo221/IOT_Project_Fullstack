@@ -11,7 +11,8 @@ import (
 )
 
 var db driver.Database
-var col driver.Collection
+var tempCol driver.Collection
+var userCol driver.Collection
 
 func handleDatabase() {
 
@@ -41,13 +42,25 @@ func handleDatabase() {
 		}
 	}
 
-	// Create a collection
-	col, err = db.Collection(nil, "IOT_DATA_SENSOR")
+	// Create a collection for data
+	tempCol, err = db.Collection(nil, "IOT_DATA_SENSOR")
 	if err != nil {
 		fmt.Println(err, "creating new...")
 		ctx := context.Background()
 		options := &driver.CreateCollectionOptions{ /* ... */ }
-		col, err = db.CreateCollection(ctx, "IOT_DATA_SENSOR", options)
+		tempCol, err = db.CreateCollection(ctx, "IOT_DATA_SENSOR", options)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	// Create a collection for users
+	userCol, err = db.Collection(nil, "IOT_DATA_LOGIN")
+	if err != nil {
+		fmt.Println(err, "creating new...")
+		ctx := context.Background()
+		options := &driver.CreateCollectionOptions{ /* ... */ }
+		userCol, err = db.CreateCollection(ctx, "IOT_DATA_LOGIN", options)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -57,7 +70,7 @@ func handleDatabase() {
 func appendToDB(tpackage dataPackageIn) {
 
 	ctx := context.Background()
-	meta, err := col.CreateDocument(ctx, tpackage)
+	meta, err := tempCol.CreateDocument(ctx, tpackage)
 	if err != nil {
 		// handle error
 	}
@@ -81,6 +94,20 @@ func dropDatabase() {
 			fmt.Println(err3)
 		}
 	}(cursor)
+
+}
+
+func handleLogin() {
+	salt := []byte("salt")
+	fmt.Println(salt)
+
+	aqlNoReturn("UPSERT { user: 'v' }" +
+		"INSERT { loginDate: DATE_NOW(), user: 'v', logins: 1, hash: '" + string(HashPassword([]byte("v"), salt)) + "' }" +
+		"UPDATE { logins: OLD.logins + 1, loginDate: DATE_NOW() } IN IOT_DATA_LOGIN")
+
+	aqlNoReturn("UPSERT { user: 'x' }" +
+		"INSERT { loginDate: DATE_NOW(), user: 'x', logins: 1, hash: '" + string(HashPassword([]byte("x"), salt)) + "' }" +
+		"UPDATE { logins: OLD.logins + 1, loginDate: DATE_NOW() } IN IOT_DATA_LOGIN")
 
 }
 
@@ -114,4 +141,20 @@ func aql(query string) []dataPackageIn {
 	}
 
 	return dataPayload
+}
+
+func aqlNoReturn(query string) {
+
+	ctx := context.Background()
+	cursor, err := db.Query(ctx, query, nil)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer func(cursor driver.Cursor) {
+		err3 := cursor.Close()
+		if err3 != nil {
+			fmt.Println(err3)
+		}
+	}(cursor)
+
 }

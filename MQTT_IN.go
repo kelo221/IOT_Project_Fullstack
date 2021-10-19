@@ -29,23 +29,18 @@ var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Me
 		Err:      false,
 		UnixTime: 0,
 	}
-	//fmt.Printf("%s\n", msg.Payload())
 
 	err := json.Unmarshal(msg.Payload(), &MQTTpackage)
 	if err != nil {
 		logrus.Error(err)
 	} else {
-		//fmt.Println(MQTTpackage)
 
 		//Add current time to MQTTpackage
 		MQTTpackage.UnixTime = int(time.Now().Unix())
 
-		//Add to array of all MQTTpackage
-		//dataStorage = append(dataStorage, MQTTpackage)
 		fmt.Println(MQTTpackage)
-
 		appendToDB(MQTTpackage)
-		//writeToDB("dataPackageIn", strconv.Itoa(MQTTpackage.SampleNr),strconv.Itoa(MQTTpackage.Temperature) )
+
 	}
 
 }

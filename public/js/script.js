@@ -2,6 +2,8 @@
 
 let systemIsAutomatic = true
 
+
+
 window.addEventListener('DOMContentLoaded', (event) => {
 
     const homeDiv = document.getElementById("homeContent")
@@ -22,6 +24,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const errorMessageButton = document.getElementById("errorMessage")
     const errorContainer = document.getElementById("errorContainer")
+
+    function animationReset() {
+        pressureInput.style.animation = 'none';
+        pressureInput.offsetHeight; /* trigger reflow */
+        pressureInput.style.animation = null;
+
+        fanSpeedInput.style.animation = 'none';
+        fanSpeedInput.offsetHeight; /* trigger reflow */
+        fanSpeedInput.style.animation = null;
+    }
 
 
     //  Home button handling
@@ -111,7 +123,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
     fanSpeedInputButton.addEventListener("click", () => {
         const value = parseInt(fanSpeedInput.value)
         console.log(value)
-        sendUserSettings(value)
+        if (value >= 0 && value <= 100) {
+            sendUserSettings(value)
+            fanSpeedInput.className = "input is-success"
+        } else {
+            fanSpeedInput.className = "input is-danger"
+            fanSpeedInput.style.animation="shake 0.5s"
+            setTimeout(animationReset, 500)
+        }
+
+        fanSpeedInput.value = null
     });
     // Fan speed input END
 
@@ -119,7 +140,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
     pressureInputButton.addEventListener("click", () => {
         const value = parseInt(pressureInput.value)
         console.log(value)
-        sendUserSettings(value)
+        if (value >= 0 && value <= 120) {
+            sendUserSettings(value)
+            pressureInput.className = "input is-success"
+        } else {
+            pressureInput.className = "input is-danger"
+            pressureInput.style.animation="shake 0.5s"
+            setTimeout(animationReset, 500)
+        }
+
+
+        pressureInput.value = null
     });
     // Pressure speed input END
 
@@ -148,9 +179,9 @@ function sendUserSettings(value) {
 
     // When system is in an automatic state only pressure is sent, and in manual speed is.
     if (systemIsAutomatic) {
-        json = JSON.stringify({Auto: systemIsAutomatic, pressure: value});
+        json = JSON.stringify({auto: systemIsAutomatic, pressure: value});
     } else {
-        json = JSON.stringify({Auto: systemIsAutomatic, speed: value});
+        json = JSON.stringify({auto: systemIsAutomatic, speed: value});
     }
 
     axios({
