@@ -10,12 +10,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/basicauth"
 	_ "github.com/gofiber/fiber/v2/middleware/basicauth"
-	"github.com/sirupsen/logrus"
 	"strings"
 	"time"
 )
 
 func handleHTTP() {
+
+	var currentUser string
 
 	app := fiber.New()
 	// Provide a minimal config
@@ -33,6 +34,14 @@ func handleHTTP() {
 			usernameMatch := subtle.ConstantTimeCompare([]byte(passwordHash[:]), []byte((expectedPasswordHash[:]))) == 1
 
 			if usernameMatch {
+
+				if currentUser != user {
+					fmt.Println(user)
+					aqlNoReturn("INSERT {    user: \"" +
+						user +
+						"\",    time: DATE_NOW()} IN IOT_DATA_LOGS")
+				}
+				currentUser = user
 				return true
 			}
 
@@ -62,15 +71,21 @@ func handleHTTP() {
 
 	app.Get("/graphRender", graphRender)
 
+	app.Get("/userLogs", userLogs)
+
 	err := app.Listen(":8080")
 	if err != nil {
-		logrus.Panicln(err)
+		panic(err)
 	}
+}
+
+func userLogs(ctx *fiber.Ctx) error {
+	return ctx.JSON(getDBLogs())
 }
 
 func graphRender(c *fiber.Ctx) error {
 
-	dataPayload := aql("FOR x IN IOT_DATA_SENSOR RETURN x")
+	dataPayload := aqlMQTT("FOR x IN IOT_DATA_SENSOR RETURN x")
 	var timeData []int
 	speedData := make([]opts.LineData, 0)
 	pressureData := make([]opts.LineData, 0)

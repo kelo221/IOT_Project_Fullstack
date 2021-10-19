@@ -6,7 +6,6 @@ import (
 	"crypto/tls"
 	"encoding/hex"
 	"fmt"
-
 	"github.com/arangodb/go-driver"
 	"github.com/arangodb/go-driver/http"
 )
@@ -14,6 +13,7 @@ import (
 var db driver.Database
 var tempCol driver.Collection
 var userCol driver.Collection
+var loginCol driver.Collection
 
 func handleDatabase() {
 
@@ -62,6 +62,18 @@ func handleDatabase() {
 		ctx := context.Background()
 		options := &driver.CreateCollectionOptions{ /* ... */ }
 		userCol, err = db.CreateCollection(ctx, "IOT_DATA_LOGIN", options)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	// Create a collection for login dates on such
+	loginCol, err = db.Collection(nil, "IOT_DATA_LOGS")
+	if err != nil {
+		fmt.Println(err, "creating new...")
+		ctx := context.Background()
+		options := &driver.CreateCollectionOptions{ /* ... */ }
+		loginCol, err = db.CreateCollection(ctx, "IOT_DATA_LOGS", options)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -115,7 +127,46 @@ func createAccounts() {
 
 }
 
-func aql(query string) []dataPackageIn {
+type logData struct {
+	User string `json:"user,omitempty"`
+	Time int    `json:"time,omitempty"`
+}
+
+func getDBLogs() []logData {
+	query := "FOR x IN IOT_DATA_LOGS RETURN x"
+
+	var dataPayload []logData
+
+	ctx := context.Background()
+	//query = "FOR Speed IN IOT_DATA_SENSOR RETURN Speed"
+	cursor, err := db.Query(ctx, query, nil)
+	if err != nil {
+		// handle error
+	}
+	defer func(cursor driver.Cursor) {
+		err3 := cursor.Close()
+		if err3 != nil {
+			fmt.Println(err3)
+		}
+	}(cursor)
+	for {
+		var doc logData
+		_, err2 := cursor.ReadDocument(ctx, &doc)
+		if driver.IsNoMoreDocuments(err2) {
+			break
+		} else if err2 != nil {
+			fmt.Println(err2)
+		}
+		//fmt.Printf("Got doc with key '%s' from query\n", meta.Rev)
+		//fmt.Println(doc)
+		dataPayload = append(dataPayload, doc)
+	}
+
+	return dataPayload
+
+}
+
+func aqlMQTT(query string) []dataPackageIn {
 
 	var dataPayload []dataPackageIn
 

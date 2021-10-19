@@ -2,7 +2,57 @@
 
 let systemIsAutomatic = true
 
+function convertEpochToSpecificTimezone(timeEpoch, offset){
+    let d = new Date(timeEpoch);
+    let utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
+    let nd = new Date(utc + (3600000*offset));
+    return nd.toLocaleString();
+}
 
+function generateTable() {
+    console.log("asking for users")
+
+    axios({
+        method: "get",
+        url: "http://localhost:8080/userLogs",
+        data: null,
+    })
+        .then(function (response) {
+            //handle success
+
+            let string1 = JSON.stringify(response);
+            let parsed = JSON.parse(string1);
+
+            let tableRoot = document.getElementsByTagName('table');
+            let tableZero = tableRoot[0];
+
+            for (let i = 0; i < parsed.data.length; i++) {
+
+                let tr = document.createElement('tr')
+
+                let td1 = document.createElement('td')
+                let td2 = document.createElement('td')
+
+                let text1 = document.createTextNode(parsed.data[i].user)
+                let text2 = document.createTextNode(convertEpochToSpecificTimezone(parsed.data[i].time, +3))
+
+                td1.appendChild(text1)
+                td2.appendChild(text2)
+                tr.appendChild(td1)
+                tr.appendChild(td2)
+
+                tableZero.appendChild(tr)
+
+            }
+
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response);
+        });
+
+
+}
 
 window.addEventListener('DOMContentLoaded', (event) => {
 
@@ -164,8 +214,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
     // Fan Error Message END
 
-});
 
+
+
+    generateTable()
+
+});
 //const gaugeSvg = document.getElementById('pressureGauge').contentDocument
 // const pointer = gaugeSvg.getElementById('pointer')
 // const pointer = document.getElementById('pressurePointer')
