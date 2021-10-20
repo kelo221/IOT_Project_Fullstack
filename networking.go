@@ -96,6 +96,7 @@ func graphRender(c *fiber.Ctx) error {
 
 	dataPayload := aqlMQTT("FOR x IN IOT_DATA_SENSOR RETURN x")
 	var timeData []int
+	var timeString []string
 	speedData := make([]opts.LineData, 0)
 	pressureData := make([]opts.LineData, 0)
 
@@ -103,6 +104,12 @@ func graphRender(c *fiber.Ctx) error {
 		pressureData = append(pressureData, opts.LineData{Value: s.Pressure})
 		speedData = append(speedData, opts.LineData{Value: s.Speed})
 		timeData = append(timeData, s.UnixTime)
+	}
+
+	for _, s := range dataPayload {
+		t := time.Unix(int64(s.UnixTime), 0)
+		strDate := t.Format("01-02 15:04:05")
+		timeString = append(timeString, strDate)
 	}
 
 	currentTime := time.Now()
@@ -119,7 +126,7 @@ func graphRender(c *fiber.Ctx) error {
 		}))
 
 	// Put data into instance
-	line.SetXAxis(timeData). //	int array of sample times
+	line.SetXAxis(timeString). //	int array of sample times
 					AddSeries("Fan Speed", speedData).   //	pressure data
 					AddSeries("Pressure", pressureData). //	fan speed data
 					SetSeriesOptions(charts.WithLineChartOpts(opts.LineChart{Smooth: true}))

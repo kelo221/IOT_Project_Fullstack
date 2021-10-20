@@ -9,6 +9,21 @@ function convertEpochToSpecificTimezone(timeEpoch, offset) {
     return nd.toLocaleString();
 }
 
+async function clearDB() {
+    try {
+        return await axios({
+                    url: 'http://localhost:8080/clearDatabase',
+                    method: 'Delete',
+                    timeout: 8000,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 
 async function getGaugeData(gaugeType) {
     try {
@@ -22,7 +37,7 @@ async function getGaugeData(gaugeType) {
         })
         if (Object.keys(res.data).length !==0) {
 
-            console.log(Object.keys(res.data).length)
+            //console.log(Object.keys(res.data).length)
 
             if (gaugeType === "speed")
                 return res.data.speed
@@ -192,6 +207,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // Database button
     clearFanData.addEventListener("click", () => {
         console.log("database button pressed")
+        clearDB().then(r => console.log(r))
         reloadGraph()
     });
     // Database button END
