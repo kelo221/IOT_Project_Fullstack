@@ -2,15 +2,46 @@
 
 let systemIsAutomatic = true
 
-function convertEpochToSpecificTimezone(timeEpoch, offset){
+function convertEpochToSpecificTimezone(timeEpoch, offset) {
     let d = new Date(timeEpoch);
     let utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
-    let nd = new Date(utc + (3600000*offset));
+    let nd = new Date(utc + (3600000 * offset));
     return nd.toLocaleString();
 }
 
+
+async function getGaugeData(gaugeType) {
+    try {
+        let res = await axios({
+            url: 'http://localhost:8080/getGaugeData',
+            method: 'get',
+            timeout: 8000,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        if (Object.keys(res.data).length !==0) {
+
+            console.log(Object.keys(res.data).length)
+
+            if (gaugeType === "speed")
+                return res.data.speed
+            if (gaugeType === "pressure")
+                return res.data.pressure
+            else
+                return 0
+        }else {
+            return 0
+        }
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+
 function generateTable() {
-    console.log("asking for users")
+    // console.log("asking for users")
 
     axios({
         method: "get",
@@ -75,6 +106,68 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const errorMessageButton = document.getElementById("errorMessage")
     const errorContainer = document.getElementById("errorContainer")
 
+    // Gauge Handling
+
+    const pressureGauge = Gauge(
+        document.getElementById("pressureGauge"),
+        {
+            min: 0,
+            max: 120,
+            dialStartAngle: 180,
+            dialEndAngle: 0,
+            value: 81,
+            viewBox: "0 0 100 57",
+            color: function (value) {
+                if (value < 80) {
+                    return "#78c985";
+                } else if (value < 100) {
+                    return "#f5aa49";
+                } else if (value > 100) {
+                    return "#e48894";
+                }
+            }
+        }
+    );
+
+    const fanGauge = Gauge(
+        document.getElementById("fanGauge"),
+        {
+            min: 0,
+            max: 100,
+            dialStartAngle: 180,
+            dialEndAngle: 0,
+            value: 81,
+            viewBox: "0 0 100 57",
+            color: function (value) {
+                if (value < 60) {
+                    return "#78c985";
+                } else if (value < 80) {
+                    return "#f5aa49";
+                } else if (value > 80) {
+                    return "#e48894";
+                }
+            }
+        }
+    );
+
+
+    function gaugeUpdater() {
+        getGaugeData("speed")
+            .then(res =>
+                fanGauge.setValueAnimated(res, 3)
+            )
+        getGaugeData("pressure")
+            .then(res =>
+                pressureGauge.setValueAnimated(res, 3)
+            )
+
+        setTimeout(gaugeUpdater, 5000);
+    }gaugeUpdater()
+
+
+    // Gauge Handling END
+
+
     function animationReset() {
         pressureInput.style.animation = 'none';
         pressureInput.offsetHeight; /* trigger reflow */
@@ -104,13 +197,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // Database button END
 
     //  Graph  handling
-    function yourFunction() {
+    function graphUpdater() {
         reloadGraph()
-
-        setTimeout(yourFunction, 5000);
+        setTimeout(graphUpdater, 5000);
     }
 
-    yourFunction();
+    graphUpdater()
 
     function getGraphSize() {
         return (((window.innerWidth) / (document.getElementById('graphContent').clientHeight)).toFixed(2)).toString()
@@ -124,7 +216,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     function reloadGraph() {
         graphContainer.contentWindow.location.reload(true);
         //  console.log(getGraphSize())
-        console.log("reloaded graph")
+        //  console.log("reloaded graph")
     }
 
     graphContainer.style.transform = "scale(0.1)"
@@ -151,7 +243,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         if (systemIsAutomatic) {
             modeSwitch.src = "img/switchMpink.png"
             systemIsAutomatic = false
-
+            sendUserSettings(null, null)
             pressureInputButton.setAttribute('disabled', null);
             pressureInput.setAttribute('disabled', null);
             fanSpeedInput.removeAttribute('disabled')
@@ -178,7 +270,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             fanSpeedInput.className = "input is-success"
         } else {
             fanSpeedInput.className = "input is-danger"
-            fanSpeedInput.style.animation="shake 0.5s"
+            fanSpeedInput.style.animation = "shake 0.5s"
             setTimeout(animationReset, 500)
         }
 
@@ -195,7 +287,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             pressureInput.className = "input is-success"
         } else {
             pressureInput.className = "input is-danger"
-            pressureInput.style.animation="shake 0.5s"
+            pressureInput.style.animation = "shake 0.5s"
             setTimeout(animationReset, 500)
         }
 
@@ -215,8 +307,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // Fan Error Message END
 
 
-
-
     generateTable()
 
 });
@@ -228,8 +318,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 // pointer.style.transform console.log(pointer)
 
 
-function sendUserSettings(value) {
+function sendUserSettings(value=0) {
     let json;
+
+    console.log("sending user settings")
 
     // When system is in an automatic state only pressure is sent, and in manual speed is.
     if (systemIsAutomatic) {
@@ -237,6 +329,8 @@ function sendUserSettings(value) {
     } else {
         json = JSON.stringify({auto: systemIsAutomatic, speed: value});
     }
+
+
 
     axios({
         method: "post",

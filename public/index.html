@@ -2,13 +2,14 @@
 <html lang="en" class="has-background-success">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Fan Controller</title>
     <link rel="shortcut icon" href="img/hi.ico" type="image/x-icon">
     <script src="js/script.js"></script>
     <script src="https://kit.fontawesome.com/97f2692db1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/axios.min.js"></script>
+    <script src="js/gauge.min.js"></script>
 
 </head>
 
@@ -40,7 +41,7 @@
 
     <div class="navbar-end">
         <div class="navbar-item">
-            <div class="button is-danger" id="clearFanData" >
+            <div class="button is-danger" id="clearFanData">
                 <a class="navbar-item">
             <span class="icon mx-1">
                 <i class="fas fa-exclamation-triangle"></i>
@@ -54,7 +55,7 @@
 <!-- NavBar END -->
 
 <!-- Fan Error -->
-<div class="notification is-danger has-text-centered  is-narrow" id="errorContainer" >
+<div class="notification is-danger has-text-centered  is-narrow" id="errorContainer">
     <button class="delete" id="errorMessage"></button>
     The fan has failed to settle in!
 </div>
@@ -73,23 +74,25 @@
     <div class="columns is-vcentered">
 
 
-
         <!-- Pressure  -->
         <div class="column">
             <section class="section">
                 <div class="box has-background-light">
                     <h3 class="title is-3">Pressure </h3>
-                    <object type="image/svg+xml" data="img/gauge.svg" id="pressureGauge" class="gauges"></object>
 
+                    <div id="pressureGauge" class="gauge-container three"></div>
                     <!-- Input Box  -->
                     <!-- Setting to Automatic clears the values set -->
                     <div class="control">
-                        <input class="input is-dark" type="number" id="pressureInputBox" placeholder="Choose a pressure (0-120Pa)"  min="0" max="120" >
+                        <label for="pressureInputBox"></label><input class="input is-dark" type="number"
+                                                                     id="pressureInputBox"
+                                                                     placeholder="Choose a pressure (0-120Pa)" min="0"
+                                                                     max="120">
                         <!-- Input Box END -->
 
 
                     </div>
-                    <button class="button mt-1" id="pressureDataButton" title="Disabled button" >Send</button>
+                    <button class="button mt-1" id="pressureDataButton" title="Disabled button">Send</button>
                 </div>
             </section>
         </div>
@@ -100,15 +103,17 @@
             <section class="section">
                 <div class="box has-background-light">
                     <h3 class="title is-3">Fan Speed</h3>
-                    <object type="image/svg+xml" data="img/gauge_anim.svg" id="fanGauge" class="gauges"></object>
-
+                    <div id="fanGauge" class="gauge-container three"></div>
                     <!-- Input Box  -->
                     <!-- Setting to Automatic clears the values set -->
                     <div class="control">
-                        <input class="input is-dark" type="number" id="fanSpeedInputBox" placeholder="Choose a fan speed (0-100%)"  min="0" max="100" disabled >
+                        <label for="fanSpeedInputBox"></label><input class="input is-dark" type="number"
+                                                                     id="fanSpeedInputBox"
+                                                                     placeholder="Choose a fan speed (0-100%)" min="0"
+                                                                     max="100" disabled>
                     </div>
                     <!-- Input Box END -->
-                    <button class="button mt-1" id="fanDataButton" title="Disabled button" disabled >Send</button>
+                    <button class="button mt-1" id="fanDataButton" title="Disabled button" disabled>Send</button>
 
                 </div>
             </section>
@@ -117,7 +122,7 @@
 
     </div>
 </div>
-    <!-- Home Content END -->
+<!-- Home Content END -->
 </div>
 
 <div class="box mx-2 mt-2 has-background-primary" id="graphContent">
@@ -127,32 +132,30 @@
 
         <div class="column">
 
-                <div class="box has-background-light" id="wrapper">
+            <div class="box has-background-light" id="wrapper">
 
 
-                    <iframe id="graphObject" src="http://localhost:8080/graphRender">
-                    </iframe>
+                <iframe id="graphObject" src="http://localhost:8080/graphRender">
+                </iframe>
 
 
-                </div>
+            </div>
 
 
+            <div class="box has-background-light" style="height: 600px;overflow: scroll;">
+                <h1 class="title  has-text-centered">Logs</h1>
+                <table class="is-12" style="  width:100%;">
+                    <tr>
+                        <th>Who</th>
+                        <th>When</th>
+                    </tr>
+                </table>
 
-
-                <div class="box has-background-light" style="height: 600px;overflow: scroll;">
-                    <h1 class="title  has-text-centered">Logs</h1>
-                    <table class="is-12" style="  width:100%;" >
-                            <tr>
-                                <th>Who</th>
-                                <th>When</th>
-                            </tr>
-                        </table>
-
-                </div>
-
-                </div>
+            </div>
 
         </div>
+
+    </div>
 
 </div>
 <!-- Main Content END -->

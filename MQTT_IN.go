@@ -18,9 +18,11 @@ type dataPackageIn struct {
 	UnixTime int  `json:"UnixTime,omitempty"`
 }
 
+var MQTTpackage dataPackageIn
+
 var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
 
-	MQTTpackage := dataPackageIn{
+	MQTTpackage = dataPackageIn{
 		Nr:       0,
 		Speed:    0,
 		Setpoint: 0,

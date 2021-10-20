@@ -14,6 +14,9 @@ import (
 	"time"
 )
 
+var currentFanspeed int
+var currentPressure int
+
 func handleHTTP() {
 
 	var currentUser string
@@ -73,10 +76,16 @@ func handleHTTP() {
 
 	app.Get("/userLogs", userLogs)
 
+	app.Get("/getGaugeData", gaugeData)
+
 	err := app.Listen(":8080")
 	if err != nil {
 		panic(err)
 	}
+}
+
+func gaugeData(ctx *fiber.Ctx) error {
+	return ctx.JSON(MQTTpackage)
 }
 
 func userLogs(ctx *fiber.Ctx) error {
