@@ -15,7 +15,6 @@ import (
 	"html/template"
 	"io"
 	"log"
-	"os"
 	"strings"
 	"time"
 )
@@ -154,11 +153,6 @@ func graphRender() template.HTML {
 					AddSeries("Pressure", pressureData). //	fan speed data
 					SetSeriesOptions(charts.WithLineChartOpts(opts.LineChart{Smooth: true}))
 	// generate chart and write it to io.Writer
-	f, _ := os.Create("line.html")
-	err := line.Render(f)
-	if err != nil {
-		return ""
-	}
 
 	var htmlSnippet template.HTML = renderToHtml(line)
 

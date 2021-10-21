@@ -90,14 +90,12 @@
 
                     <div id="pressureGauge" class="gauge-container three"></div>
                     <!-- Input Box  -->
-                    <!-- Setting to Automatic clears the values set -->
                     <div class="control">
                         <label for="pressureInputBox"></label><input class="input is-dark" type="number"
                                                                      id="pressureInputBox"
                                                                      placeholder="Choose a pressure (0-120Pa)" min="0"
                                                                      max="120">
                         <!-- Input Box END -->
-
 
                     </div>
                     <button class="button mt-1" id="pressureDataButton" title="Disabled button">Send</button>
@@ -113,7 +111,6 @@
                     <h3 class="title is-3">Fan Speed</h3>
                     <div id="fanGauge" class="gauge-container three"></div>
                     <!-- Input Box  -->
-                    <!-- Setting to Automatic clears the values set -->
                     <div class="control">
                         <label for="fanSpeedInputBox"></label><input class="input is-dark" type="number"
                                                                      id="fanSpeedInputBox"
@@ -133,69 +130,40 @@
 <!-- Home Content END -->
 </div>
 
+<!-- Graph -->
 <div class="box mx-2 mt-2 has-background-primary" id="graphContent">
-
     <div class="columns is-centered">
-
-
-        <div class="column">
-
-            <div class="box has-background-light" id="wrapper">
-
-                {{.Graph}}
-
-            </div>
+        <div class="box has-background-light" id="wrapper">
+            {{.Graph}}
         </div>
-
     </div>
-
 </div>
+<!-- Graph END -->
 
-
+<!-- Log in  -->
 <div class="box mx-2 mt-2 has-background-primary" id="loginContent">
-
     <div class="columns is-centered">
-            <div class="box has-background-light" style="height: 600px;overflow: scroll;">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th><abbr title="Number">#</abbr></th>
-                        <th>Who</th>
-                        <th>When</th>
-                        <th>Total log in count</th>
-                    </tr>
-                    </thead>
-                    <tbody id="logContent">
-                   <!-- <tr>
-                        <th>1</th>
-                        <td>Leicester City
-                        </td>
-                        <td>10/19/2021, 8:22:00 PM</td>
-                        <td>23</td>
-                    </tr>
-                    <tr>
-                        <th>1</th>
-                        <td>Leicester City
-                        </td>
-                        <td>10/19/2021, 8:22:00 PM</td>
-                        <td>23</td>
-                    </tr>
-                    <tr>
-                        <th>1</th>
-                        <td>Leicester City
-                        </td>
-                        <td>10/19/2021, 8:22:00 PM</td>
-                        <td>23</td>
-                    </tr>-->
-                    </tbody>
-                </table>
-            </div>
-
+        <div class="box has-background-light" style="height: 600px;overflow: scroll;">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th><abbr title="Number">#</abbr></th>
+                    <th>Who</th>
+                    <th>When</th>
+                    <th>Total log in count</th>
+                </tr>
+                </thead>
+                <tbody id="logContent">
+                </tbody>
+            </table>
         </div>
 
     </div>
 
 </div>
+<!-- Log in  END-->
+</div>
+
 <!-- Main Content END -->
 </body>
 </html>
