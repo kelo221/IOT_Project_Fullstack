@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"crypto/subtle"
 	"encoding/hex"
 	"fmt"
@@ -10,6 +11,11 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/basicauth"
 	_ "github.com/gofiber/fiber/v2/middleware/basicauth"
+	"github.com/gofiber/template/html"
+	"html/template"
+	"io"
+	"log"
+	"os"
 	"strings"
 	"time"
 )
@@ -17,11 +23,19 @@ import (
 var currentFanspeed int
 var currentPressure int
 
+type snippetRenderer struct {
+	c      interface{}
+	before []func()
+}
+
 func handleHTTP() {
 
 	var currentUser string
 
-	app := fiber.New()
+	engine := html.New("./views", ".html")
+	app := fiber.New(fiber.Config{
+		Views: engine,
+	})
 	// Provide a minimal config
 
 	app.Use(basicauth.New(basicauth.Config{
@@ -52,7 +66,17 @@ func handleHTTP() {
 		},
 	}))
 
-	app.Static("/", "./public")
+	app.Get("/", func(c *fiber.Ctx) error {
+		// Render index template
+		return c.Render("index", fiber.Map{
+			"Graph": graphRender(),
+		})
+	})
+
+	// Serve static assets
+	app.Static("/public", "./public", fiber.Static{
+		Compress: true,
+	})
 
 	app.Delete("/clearDatabase", func(c *fiber.Ctx) error {
 		fmt.Println("Requested to clear collection")
@@ -72,8 +96,6 @@ func handleHTTP() {
 		return c.SendStatus(200)
 	})
 
-	app.Get("/graphRender", graphRender)
-
 	app.Get("/userLogs", userLogs)
 
 	app.Get("/getGaugeData", gaugeData)
@@ -92,10 +114,10 @@ func userLogs(ctx *fiber.Ctx) error {
 	return ctx.JSON(getDBLogs())
 }
 
-func graphRender(c *fiber.Ctx) error {
+func graphRender() template.HTML {
 
 	dataPayload := aqlMQTT("FOR x IN IOT_DATA_SENSOR RETURN x")
-	var timeData []int
+
 	var timeString []string
 	speedData := make([]opts.LineData, 0)
 	pressureData := make([]opts.LineData, 0)
@@ -103,7 +125,7 @@ func graphRender(c *fiber.Ctx) error {
 	for _, s := range dataPayload {
 		pressureData = append(pressureData, opts.LineData{Value: s.Pressure})
 		speedData = append(speedData, opts.LineData{Value: s.Speed})
-		timeData = append(timeData, s.UnixTime)
+
 	}
 
 	for _, s := range dataPayload {
@@ -113,10 +135,11 @@ func graphRender(c *fiber.Ctx) error {
 	}
 
 	currentTime := time.Now()
-	c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
 
-	// create a new line instance
+	// initialize
 	line := charts.NewLine()
+	line.Renderer = newSnippetRenderer(line, line.Validate)
+
 	// set some global options like Title/Legend/ToolTip or anything else
 	line.SetGlobalOptions(
 		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeWesteros}),
@@ -130,10 +153,75 @@ func graphRender(c *fiber.Ctx) error {
 					AddSeries("Fan Speed", speedData).   //	pressure data
 					AddSeries("Pressure", pressureData). //	fan speed data
 					SetSeriesOptions(charts.WithLineChartOpts(opts.LineChart{Smooth: true}))
-	err := line.Render(c)
+	// generate chart and write it to io.Writer
+	f, _ := os.Create("line.html")
+	err := line.Render(f)
 	if err != nil {
-		return err
+		return ""
 	}
 
-	return nil
+	var htmlSnippet template.HTML = renderToHtml(line)
+
+	return htmlSnippet
 }
+
+func renderToHtml(c interface{}) template.HTML {
+	var buf bytes.Buffer
+	r := c.(Renderer)
+	err := r.Render(&buf)
+	if err != nil {
+		log.Printf("Failed to render chart: %s", err)
+		return ""
+	}
+
+	return template.HTML(buf.String())
+}
+
+// Renderer
+// Any kinds of charts have their render implementation and
+// you can define your own render logic easily.
+type Renderer interface {
+	Render(w io.Writer) error
+}
+
+func newSnippetRenderer(c interface{}, before ...func()) Renderer {
+	return &snippetRenderer{c: c, before: before}
+}
+
+func (r *snippetRenderer) Render(w io.Writer) error {
+	const tplName = "chart"
+	for _, fn := range r.before {
+		fn()
+	}
+
+	tpl := template.
+		Must(template.New(tplName).
+			Funcs(template.FuncMap{
+				"safeJS": func(s interface{}) template.JS {
+					return template.JS(fmt.Sprint(s))
+				},
+			}).
+			Parse(baseTpl),
+		)
+
+	err := tpl.ExecuteTemplate(w, tplName, r.c)
+	return err
+}
+
+var baseTpl = `
+<div class="container" id="graphCont">
+    <div class="item" id="{{ .ChartID }}" style="width:{{ .Initialization.Width }};height:{{ .Initialization.Height }};"></div>
+</div>
+{{- range .JSAssets.Values }}
+   <script src="{{ . }}"></script>
+{{- end }}
+<script type="text/javascript">
+    "use strict";
+    let goecharts_{{ .ChartID | safeJS }} = echarts.init(document.getElementById('{{ .ChartID | safeJS }}'), "{{ .Theme }}");
+    let option_{{ .ChartID | safeJS }} = {{ .JSON }};
+    goecharts_{{ .ChartID | safeJS }}.setOption(option_{{ .ChartID | safeJS }});
+    {{- range .JSFunctions.Fns }}
+    {{ . | safeJS }}
+    {{- end }}
+</script>
+`

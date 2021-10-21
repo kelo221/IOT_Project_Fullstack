@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Fan Controller</title>
-    <link rel="shortcut icon" href="img/hi.ico" type="image/x-icon">
-    <script src="js/script.js"></script>
+    <link rel="shortcut icon" href="../public/img/hi.ico" type="image/x-icon">
+    <script src="../public/js/script.js"></script>
     <script src="https://kit.fontawesome.com/97f2692db1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/axios.min.js"></script>
-    <script src="js/gauge.min.js"></script>
-
+    <link rel="stylesheet" href="../public/css/style.css">
+    <script src="../public/js/axios.min.js"></script>
+    <script src="../public/js/gauge.min.js"></script>
+    <script src="https://go-echarts.github.io/go-echarts-assets/assets/echarts.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -19,7 +20,7 @@
     <div class="navbar-brand">
         <a class="navbar-item">
             <i id="fan" class="fas fa-fan has-text-white-bis mx-1 rotate"></i>
-            <img src="/img/logoNew.png" alt="" height="40" id="logo">
+            <img src="public/img/logoNew.png" alt="" height="40" id="logo">
         </a>
 
         <a id="homeButton" class="navbar-item">
@@ -33,7 +34,14 @@
             <span class="icon mx-1">
                 <i class="fas fa-chart-area"></i>
             </span>
-            Graphs & Statistics
+            Graphs
+        </a>
+
+        <a id="loginButton" class="navbar-item">
+            <span class="icon mx-1">
+                <i class="far fa-list-alt"></i>
+            </span>
+            Logins
         </a>
 
     </div>
@@ -66,12 +74,12 @@
 
     <!-- Switch . -->
     <figure class="is-flex is-align-items-left is-justify-content-center is-128x128" id="switch">
-        <img src="img/switchA.png" alt="modeChanger" id="switchImage">
+        <img src="../public/img/switchA.png" alt="modeChanger" id="switchImage">
     </figure>
     <!-- Switch -->
 
     <!-- Home Content -->
-    <div class="columns is-vcentered">
+    <div class="columns is-centered">
 
 
         <!-- Pressure  -->
@@ -127,30 +135,60 @@
 
 <div class="box mx-2 mt-2 has-background-primary" id="graphContent">
 
-    <div class="columns is-vcentered">
+    <div class="columns is-centered">
 
 
         <div class="column">
 
             <div class="box has-background-light" id="wrapper">
 
-
-                <iframe id="graphObject" src="http://localhost:8080/graphRender">
-                </iframe>
-
+                {{.Graph}}
 
             </div>
+        </div>
+
+    </div>
+
+</div>
 
 
+<div class="box mx-2 mt-2 has-background-primary" id="loginContent">
+
+    <div class="columns is-centered">
             <div class="box has-background-light" style="height: 600px;overflow: scroll;">
-                <h1 class="title  has-text-centered">Logs</h1>
-                <table class="is-12" style="  width:100%;">
+                <table class="table">
+                    <thead>
                     <tr>
+                        <th><abbr title="Number">#</abbr></th>
                         <th>Who</th>
                         <th>When</th>
+                        <th>Total log in count</th>
                     </tr>
+                    </thead>
+                    <tbody id="logContent">
+                   <!-- <tr>
+                        <th>1</th>
+                        <td>Leicester City
+                        </td>
+                        <td>10/19/2021, 8:22:00 PM</td>
+                        <td>23</td>
+                    </tr>
+                    <tr>
+                        <th>1</th>
+                        <td>Leicester City
+                        </td>
+                        <td>10/19/2021, 8:22:00 PM</td>
+                        <td>23</td>
+                    </tr>
+                    <tr>
+                        <th>1</th>
+                        <td>Leicester City
+                        </td>
+                        <td>10/19/2021, 8:22:00 PM</td>
+                        <td>23</td>
+                    </tr>-->
+                    </tbody>
                 </table>
-
             </div>
 
         </div>

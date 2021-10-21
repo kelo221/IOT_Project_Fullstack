@@ -12,13 +12,13 @@ function convertEpochToSpecificTimezone(timeEpoch, offset) {
 async function clearDB() {
     try {
         return await axios({
-                    url: 'http://localhost:8080/clearDatabase',
-                    method: 'Delete',
-                    timeout: 8000,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
+            url: 'http://localhost:8080/clearDatabase',
+            method: 'Delete',
+            timeout: 8000,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
     } catch (err) {
         console.error(err);
     }
@@ -35,7 +35,7 @@ async function getGaugeData(gaugeType) {
                 'Content-Type': 'application/json',
             }
         })
-        if (Object.keys(res.data).length !==0) {
+        if (Object.keys(res.data).length !== 0) {
 
             //console.log(Object.keys(res.data).length)
 
@@ -45,7 +45,7 @@ async function getGaugeData(gaugeType) {
                 return res.data.pressure
             else
                 return 0
-        }else {
+        } else {
             return 0
         }
 
@@ -69,25 +69,47 @@ function generateTable() {
             let string1 = JSON.stringify(response);
             let parsed = JSON.parse(string1);
 
-            let tableRoot = document.getElementsByTagName('table');
-            let tableZero = tableRoot[0];
+            let teachTotal=0
+            let xTotal=0
+            let vTotal=0
+            let currentCount=0
 
             for (let i = 0; i < parsed.data.length; i++) {
 
+                // This could have been in the database
+                if (parsed.data[i].user === "teach"){
+                    teachTotal++
+                    currentCount = teachTotal
+                }
+                if (parsed.data[i].user === "x"){
+                    xTotal++
+                    currentCount = xTotal
+                }
+                if (parsed.data[i].user === "v"){
+                    vTotal++
+                    currentCount = vTotal
+                }
+
                 let tr = document.createElement('tr')
 
-                let td1 = document.createElement('td')
+                let td1 = document.createElement('th')
                 let td2 = document.createElement('td')
-
-                let text1 = document.createTextNode(parsed.data[i].user)
-                let text2 = document.createTextNode(convertEpochToSpecificTimezone(parsed.data[i].time, +3))
-
+                let td3 = document.createElement('td')
+                let td4 = document.createElement('td')
+                let text1 = document.createTextNode((i+1).toString())
+                let text2 = document.createTextNode(parsed.data[i].user)
+                let text3 = document.createTextNode(convertEpochToSpecificTimezone(parsed.data[i].time, +3))
+                let text4 = document.createTextNode(currentCount.toString())
                 td1.appendChild(text1)
                 td2.appendChild(text2)
+                td3.appendChild(text3)
+                td4.appendChild(text4)
                 tr.appendChild(td1)
                 tr.appendChild(td2)
+                tr.appendChild(td3)
+                tr.appendChild(td4)
 
-                tableZero.appendChild(tr)
+                document.getElementById("logContent").appendChild(tr)
 
             }
 
@@ -104,10 +126,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const homeDiv = document.getElementById("homeContent")
     const graphDiv = document.getElementById("graphContent")
+    const loginDiv = document.getElementById("loginContent")
     graphDiv.style.display = "none"
+    loginDiv.style.display = "none"
+
 
     const homeButton = document.getElementById("homeButton")
     const graphButton = document.getElementById("graphButton")
+    const loginsButton = document.getElementById("loginButton")
     const graphContainer = document.getElementById("graphObject")
     const clearFanData = document.getElementById("clearFanData")
 
@@ -120,6 +146,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const errorMessageButton = document.getElementById("errorMessage")
     const errorContainer = document.getElementById("errorContainer")
+
+    const gaugeGraphId = document.getElementsByClassName('item')[0].id
 
     // Gauge Handling
 
@@ -177,7 +205,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             )
 
         setTimeout(gaugeUpdater, 5000);
-    }gaugeUpdater()
+    }
+
+    gaugeUpdater()
 
 
     // Gauge Handling END
@@ -197,10 +227,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
     //  Home button handling
     homeButton.addEventListener("click", () => {
         console.log("homeButton clicked.")
-        if (homeDiv.style.display === "none") {
-            homeDiv.style.display = "block"
-            graphDiv.style.display = "none"
-        }
+        homeDiv.style.display = "block"
+        graphDiv.style.display = "none"
+        loginDiv.style.display = "none"
+    });
+    //  Home button handling END
+
+    //  Graph button handling
+    graphButton.addEventListener("click", () => {
+        console.log("graphButton clicked.")
+        homeDiv.style.display = "none"
+        graphDiv.style.display = "block"
+        loginDiv.style.display = "none"
+        //   graphContainer.style.transform = "scale(" + getGraphSize() + ")"
+        //  console.log(getGraphSize())
+    });
+    //  Graph button handling END
+
+    //  login button handling
+    loginsButton.addEventListener("click", () => {
+        console.log("loginsButton clicked.")
+        homeDiv.style.display = "none"
+        graphDiv.style.display = "none"
+        loginDiv.style.display = "block"
     });
     //  Home button handling END
 
@@ -210,9 +259,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
         clearDB().then(r => console.log(r))
         reloadGraph()
     });
+
     // Database button END
 
-    //  Graph  handling
+
+    function reloadGraph() {
+        //console.log(gaugeGraphId)
+        //console.log(document.getElementById("graphCont"))
+    }
+
     function graphUpdater() {
         reloadGraph()
         setTimeout(graphUpdater, 5000);
@@ -220,37 +275,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     graphUpdater()
 
-    function getGraphSize() {
-        return (((window.innerWidth) / (document.getElementById('graphContent').clientHeight)).toFixed(2)).toString()
-    }
-
-    function setGraphSize() {
-        graphContainer.style.transform = "scale(" + getGraphSize() + ")"
-    }
-
-
-    function reloadGraph() {
-        graphContainer.contentWindow.location.reload(true);
-        //  console.log(getGraphSize())
-        //  console.log("reloaded graph")
-    }
-
-    graphContainer.style.transform = "scale(0.1)"
-    graphContainer.style.transform = "scale(" + getGraphSize() + ")"
-
-    window.onresize = setGraphSize
-    //  Graph  handling END
-
-    //  Graph button handling
-    graphButton.addEventListener("click", () => {
-        console.log("graphButton clicked.")
-        if (graphDiv.style.display === "none") {
-            homeDiv.style.display = "none"
-            graphDiv.style.display = "block"
-        }
-        graphContainer.style.transform = "scale(" + getGraphSize() + ")"
-    });
-    //  Graph button handling END
 
     // Mode switch button
     modeSwitch.addEventListener("click", () => {
@@ -334,7 +358,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 // pointer.style.transform console.log(pointer)
 
 
-function sendUserSettings(value=0) {
+function sendUserSettings(value = 0) {
     let json;
 
     console.log("sending user settings")
@@ -345,7 +369,6 @@ function sendUserSettings(value=0) {
     } else {
         json = JSON.stringify({auto: systemIsAutomatic, speed: value});
     }
-
 
 
     axios({
