@@ -147,7 +147,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const errorMessageButton = document.getElementById("errorMessage")
     const errorContainer = document.getElementById("errorContainer")
 
-    const gaugeGraphId = document.getElementsByClassName('item')[0].id
+    const gaugeGraphId = document.getElementsByTagName('canvas')
 
     // Gauge Handling
 
@@ -264,8 +264,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     function reloadGraph() {
-        //console.log(gaugeGraphId)
-        //console.log(document.getElementById("graphCont"))
+       // console.log(gaugeGraphId[0])
+       // gaugeGraphId[0]
+       // let context = gaugeGraphId[0].getContext('2d');
+      //  context.clearRect(0, 0, gaugeGraphId[0].width, gaugeGraphId[0].height); //clear html5 canvas
+       // console.log(document.getElementById("zr_0"))
+        //document.getElementById("graphCont").contentWindow.location.reload(true)
     }
 
     function graphUpdater() {
