@@ -285,7 +285,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         console.log("switchImage clicked.")
         if (systemIsAutomatic) {
-            modeSwitch.src = "img/switchMpink.png"
+            modeSwitch.src = "public/img/switchMpink.png"
             systemIsAutomatic = false
             sendUserSettings(null, null)
             pressureInputButton.setAttribute('disabled', null);
@@ -293,7 +293,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             fanSpeedInput.removeAttribute('disabled')
             fanSpeedInputButton.removeAttribute('disabled')
         } else {
-            modeSwitch.src = "img/switchA.png"
+            modeSwitch.src = "public/img/switchA.png"
             systemIsAutomatic = true
             sendUserSettings(null, null)
 
