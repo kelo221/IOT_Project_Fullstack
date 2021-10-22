@@ -11,10 +11,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/basicauth"
 	_ "github.com/gofiber/fiber/v2/middleware/basicauth"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/html"
 	"html/template"
 	"io"
 	"log"
+	"os"
 	"strings"
 	"time"
 )
@@ -29,6 +31,12 @@ type snippetRenderer struct {
 
 func handleHTTP() {
 
+	file, errFile := os.OpenFile("./123.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if errFile != nil {
+		log.Fatalf("error opening file: %v", errFile)
+	}
+	defer file.Close()
+
 	var currentUser string
 
 	engine := html.New("./views", ".html")
@@ -36,6 +44,12 @@ func handleHTTP() {
 		Views: engine,
 	})
 	// Provide a minimal config
+	app.Use(logger.New(logger.Config{
+		Format:     "[${time}] ${status} - ${latency} ${method} ${path} (${ip})\n",
+		TimeFormat: "15:04:05",
+		TimeZone:   "Local",
+		Output:     file,
+	}))
 
 	app.Use(basicauth.New(basicauth.Config{
 		Authorizer: func(user, pass string) bool {
@@ -59,9 +73,16 @@ func handleHTTP() {
 				}
 				currentUser = user
 				return true
+			} else {
+
+				fmt.Println("INCORRECT CREDENTIALS")
+				aqlNoReturn("INSERT {    user: \"" +
+					"INCORRECT CREDENTIALS" +
+					"\",    time: DATE_NOW()} IN IOT_DATA_LOGS")
+
+				return false
 			}
 
-			return false
 		},
 	}))
 

@@ -90,6 +90,10 @@ function generateTable() {
                     currentCount = vTotal
                 }
 
+                if (parsed.data[i].user === "INCORRECT CREDENTIALS") {
+                    currentCount = 0
+                }
+
                 let tr = document.createElement('tr')
 
                 let td1 = document.createElement('th')
