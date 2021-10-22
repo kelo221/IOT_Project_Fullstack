@@ -69,23 +69,23 @@ function generateTable() {
             let string1 = JSON.stringify(response);
             let parsed = JSON.parse(string1);
 
-            let teachTotal=0
-            let xTotal=0
-            let vTotal=0
-            let currentCount=0
+            let teachTotal = 0
+            let xTotal = 0
+            let vTotal = 0
+            let currentCount = 0
 
             for (let i = 0; i < parsed.data.length; i++) {
 
                 // This could have been in the database
-                if (parsed.data[i].user === "teach"){
+                if (parsed.data[i].user === "teach") {
                     teachTotal++
                     currentCount = teachTotal
                 }
-                if (parsed.data[i].user === "x"){
+                if (parsed.data[i].user === "x") {
                     xTotal++
                     currentCount = xTotal
                 }
-                if (parsed.data[i].user === "v"){
+                if (parsed.data[i].user === "v") {
                     vTotal++
                     currentCount = vTotal
                 }
@@ -96,7 +96,7 @@ function generateTable() {
                 let td2 = document.createElement('td')
                 let td3 = document.createElement('td')
                 let td4 = document.createElement('td')
-                let text1 = document.createTextNode((i+1).toString())
+                let text1 = document.createTextNode((i + 1).toString())
                 let text2 = document.createTextNode(parsed.data[i].user)
                 let text3 = document.createTextNode(convertEpochToSpecificTimezone(parsed.data[i].time, +3))
                 let text4 = document.createTextNode(currentCount.toString())
@@ -146,8 +146,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const errorMessageButton = document.getElementById("errorMessage")
     const errorContainer = document.getElementById("errorContainer")
+    errorContainer.style.display="none"
 
     const gaugeGraphId = document.getElementsByTagName('canvas')
+
+    let fanSpeedOld = 0
+    let fanSpeedNew = 0
+
+    let skippedFirstCheck = false
 
     // Gauge Handling
 
@@ -209,7 +215,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     gaugeUpdater()
 
-
     // Gauge Handling END
 
 
@@ -257,27 +262,34 @@ window.addEventListener('DOMContentLoaded', (event) => {
     clearFanData.addEventListener("click", () => {
         console.log("database button pressed")
         clearDB().then(r => console.log(r))
-        reloadGraph()
     });
 
     // Database button END
 
 
-    function reloadGraph() {
-       // console.log(gaugeGraphId[0])
-       // gaugeGraphId[0]
-       // let context = gaugeGraphId[0].getContext('2d');
-      //  context.clearRect(0, 0, gaugeGraphId[0].width, gaugeGraphId[0].height); //clear html5 canvas
-       // console.log(document.getElementById("zr_0"))
-        //document.getElementById("graphCont").contentWindow.location.reload(true)
+    function fanSettleCheck() {
+        fanSpeedOld=fanSpeedNew
+        getGaugeData("speed")
+            .then(res =>
+                fanSpeedNew=res
+            )
+        if (fanSpeedNew!==fanSpeedOld || fanSpeedNew===0){
+            errorContainer.style.display="block"
+            console.log("fan speed has not settled")
+        }
+
     }
 
-    function graphUpdater() {
-        reloadGraph()
-        setTimeout(graphUpdater, 5000);
+    function fanCheckTimer() {
+
+        if (skippedFirstCheck){
+        fanSettleCheck()
+        }
+        skippedFirstCheck = true
+        setTimeout(fanCheckTimer, 10000);
     }
 
-    graphUpdater()
+    fanCheckTimer()
 
 
     // Mode switch button
@@ -343,10 +355,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // Fan Error Message
     errorMessageButton.addEventListener("click", () => {
         console.log("errorMessageButton clicked.")
-        // errorContainer.style.display = "none"
-        errorContainer.classList.toggle('fade')
         errorContainer.style.display = "none"
-
     });
     // Fan Error Message END
 
