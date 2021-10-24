@@ -4,11 +4,9 @@
 }
 
 #switch{
-    width: auto;
+    width: 150px;
     height: auto;
-    max-width: 8vw;
-    max-height: 8vh;
-    margin-left: 3%;
+    margin-left: 40px;
     margin-top:5px ;
 }
 
