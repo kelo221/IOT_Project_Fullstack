@@ -9,16 +9,17 @@ teammates’ name. And the password is the same as the username. if the password
 ## 2. Home Page
 <img width="966" alt="截屏2021-10-28 00 21 05" src="https://user-images.githubusercontent.com/56063237/139148961-24117f59-5eb2-4fe5-8a2f-3c66b54ca667.png">
 
-#### Home page:
+#### 1. Home page:
 home page shows the main function of the project which is to visualize the fan speed and pressure of the Embedded device.
-#### Graph page: 
+#### 2. Graph page: 
 Graph page is the graph that shows the history. 
-#### Logins: 
+#### 3. Logins: 
 the time and users which used the project website
-#### Clear Fan Data
-#### Mode swtich: it can decide the mode whether automatic or manu mode
-##### Automatic mode (A)
-#### Manual mode (M)
+#### 4. Clear Fan Data
+#### 5. Mode swtich
+it can decide the mode whether automatic or manu mode
+#### 6. Automatic mode (A)
+#### 7. Manual mode (M)
 
 
 
