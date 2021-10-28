@@ -3,7 +3,7 @@
 
 This is the web page of our full stack project.
 
-![1111](https://user-images.githubusercontent.com/56063237/139239653-1ed1250b-e9b5-44c0-a74b-f981634e0551.png)
+![1111](https://user-images.githubusercontent.com/61495413/139274217-54b428eb-96f3-4019-abfa-593880833b60.png)
 
 
 ## 1. Authentication page
