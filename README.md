@@ -1,24 +1,32 @@
 # IOT_Project_Fullstack
-A web interface for controlling a ventilation system. Written in Go.\
+## Page about
+
+This is the web page of our full stack project.
+
+![1111](https://user-images.githubusercontent.com/56063237/139239653-1ed1250b-e9b5-44c0-a74b-f981634e0551.png)
+
+
 ## 1. Authentication page
 <img width="815" alt="截屏2021-10-27 23 38 26" src="https://user-images.githubusercontent.com/56063237/139145216-226c763d-54ad-4d14-8cdd-32b39913c0e8.png">
 
 First time enter the localhost:8080 the server will ask to enter username and password. And valid username is “x” and “v” which is the first character of 
-teammates’ name. And the password is the same as the username. if the password is incorrect ,all the requests are logged to a file.
+teammates’ name, and the password is the same as the username. if the password is incorrect, all the requests are logged to a file.
 
 ## 2. Home Page
 <img width="966" alt="截屏2021-10-28 00 21 05" src="https://user-images.githubusercontent.com/56063237/139148961-24117f59-5eb2-4fe5-8a2f-3c66b54ca667.png">
 
 #### 1. Home page:
-home page shows the main function of the project which is to visualize the fan speed and pressure of the Embedded device.
+home page shows the main functions of the project which is to visualize the fan speed and pressure of the Embedded device.
 #### 2. Graph page: 
 Graph page is the graph that shows the history. 
 #### 3. Logins: 
-the time and users which used the project website
+Loginpage shows the time and users which used the project website.
 #### 4. Clear Fan Data
+This buttom can clean all the history of the fan speed and pressure
 #### 5. Mode swtich
 it can decide the mode whether automatic or manu mode
 #### 6. Automatic mode (A)
+
 #### 7. Manual mode (M)
 
 
