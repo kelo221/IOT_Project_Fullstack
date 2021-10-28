@@ -1,7 +1,7 @@
 # IOT_Project_Fullstack
-## Page about
+## About
 
-A Fullstack for MQTT controlled pressure system.
+A Fullstack for MQTT controlled pressure system. Software has an intuitive user interface that sends JSON packages to LPC1549 though MQTT. 
 
 ![1111](https://user-images.githubusercontent.com/61495413/139274217-54b428eb-96f3-4019-abfa-593880833b60.png)
 
