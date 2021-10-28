@@ -1,7 +1,7 @@
 # IOT_Project_Fullstack
 ## Page about
 
-This is the web page of our full stack project.
+A Fullstack for MQTT controlled pressure system.
 
 ![1111](https://user-images.githubusercontent.com/61495413/139274217-54b428eb-96f3-4019-abfa-593880833b60.png)
 
