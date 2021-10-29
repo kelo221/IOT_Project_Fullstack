@@ -6,8 +6,11 @@ A Fullstack for MQTT controlled pressure system. Software has an intuitive user 
 ![1111](https://user-images.githubusercontent.com/61495413/139274217-54b428eb-96f3-4019-abfa-593880833b60.png)
 
 LPC1549 Reads the pressure data using a pressure sensor, formats it into JSON and pushes the message to the MQTT server.
+
 The server then receives the message and parses the information, the data then is added to the ArangoDB.
+
 The frontend poll the server with a POST methoid to query the latest MQTT information.
+
 User sends the chosen pressure level or fan speed though the user interface using a POST methoid. The JSON gets then pushed back to the LPC1549.
 
 
