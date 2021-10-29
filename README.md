@@ -24,13 +24,13 @@ This page shows that first time opening the website, the user will be asked to e
 #### 1. Home page:
 Home page shows the main functions of the project which is to visualize the Fan speed and Pressure of the Embedded device.
 #### 2. Graph page: 
-Graph page shows the graph of history. 
+Graph page contains a graph of the collected fan and pressure data.
 #### 3. Logins: 
-Login page shows the time and users that used the project website.
+Login page shows when the users have logged in and how many times.
 #### 4. Clear Fan Data
 This button can clean all the history of the Fan speed and Pressure.
 #### 5. Mode switch
-Mode switch can decide the mode whether automatic or manual mode.
+Mode switch can decide between the automatic or manual mode.
 #### 6. Automatic mode (A)
 
 #### 7. Manual mode (M)
