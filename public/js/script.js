@@ -154,8 +154,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const gaugeGraphId = document.getElementsByTagName('canvas')
 
-    let fanSpeedOld = 0
-    let fanSpeedNew = 0
+    let fanSpeedOld = 100
+    let fanSpeedNew = 100
 
     let skippedFirstCheck = false
 
@@ -168,7 +168,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             max: 120,
             dialStartAngle: 180,
             dialEndAngle: 0,
-            value: 81,
+            value: 0,
             viewBox: "0 0 100 57",
             color: function (value) {
                 if (value < 80) {
@@ -189,7 +189,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             max: 100,
             dialStartAngle: 180,
             dialEndAngle: 0,
-            value: 81,
+            value: 0,
             viewBox: "0 0 100 57",
             color: function (value) {
                 if (value < 60) {
