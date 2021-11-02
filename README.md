@@ -38,7 +38,9 @@ Mode switch can decide between the automatic or manual mode.
 
 
 ## 3. Automatic mode (A)
-<img width="831" alt="截屏2021-10-27 23 53 50" src="https://user-images.githubusercontent.com/56063237/139146378-bb4df640-0dbe-4f71-8171-2fcbbf286d17.png">
+
+
+<img width="819" alt="截屏2021-10-27 23 53 59" src="https://user-images.githubusercontent.com/56063237/139146390-1a02f7f0-4ad8-427b-b461-b8bb563abebe.png">
 
 This is manual mode.\
 (The screenshot shows a example)\
@@ -48,14 +50,23 @@ Green( When the pressure is less than 80)\
 Yellow( When the pressure is over 80 or less than 100)\
 Pink( When the pressure is over 100)
 
+#### Fan Speed:
+Green( When the Fan speed is less than 60)\
+Yellow( When the Fan speed is over 60 or less than 80)\
+Pink( When the Fan speed is over 80)
 
 
 ## 4. Manual mode (M)
-<img width="819" alt="截屏2021-10-27 23 53 59" src="https://user-images.githubusercontent.com/56063237/139146390-1a02f7f0-4ad8-427b-b461-b8bb563abebe.png">
+<img width="831" alt="截屏2021-10-27 23 53 50" src="https://user-images.githubusercontent.com/56063237/139146378-bb4df640-0dbe-4f71-8171-2fcbbf286d17.png">
 
 This is automatic mode.\
 (The screenshot shows a example)\
 In this mode, users set the chosen pressure level.
+#### Pressure:
+Green( When the pressure is less than 80)\
+Yellow( When the pressure is over 80 or less than 100)\
+Pink( When the pressure is over 100)
+
 #### Fan Speed:
 Green( When the Fan speed is less than 60)\
 Yellow( When the Fan speed is over 60 or less than 80)\
